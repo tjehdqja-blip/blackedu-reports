@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<title>운영팀 10월 실행 회의</title>
+<meta name="description" content="더블랙에듀 운영팀 10월 실행 점검 회의 — 안건·체크리스트·타임라인·회의록">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+/* 레이아웃: 상단 요약(회의 정보 + 진척) → 탭(안건 / 타임라인 / 회의록) → 안건은 카드 1열, 데스크톱에서 2열 */
+:root{
+  --bg:#f3f4f1; --surface:#ffffff; --surface-2:#f8f8f5; --fg:#15181d; --muted:#626a74; --line:#dcdfd8;
+  --navy:#0f1f3d; --navy-ink:#0f1f3d; --navy-soft:#e5eaf4; --gold:#b48527; --gold-soft:#f6eedb;
+  --ok:#2a7a58; --ok-soft:#e1f1e8; --warn:#b5651d; --warn-soft:#fbead9; --todo:#6b7280; --todo-soft:#eceef0;
+  --focus:#1d4ed8;
+  --font:"Pretendard",-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#14161a; --surface:#1d2026; --surface-2:#23272e; --fg:#ebe9e3; --muted:#a2a8b1; --line:#30353d;
+    --navy:#2a3a5e; --navy-ink:#c6d3ef; --navy-soft:#242d41; --gold:#d7a94a; --gold-soft:#3a3221;
+    --ok:#7dc8a1; --ok-soft:#1f3329; --warn:#e9a56a; --warn-soft:#3a2a1c; --todo:#9aa1ab; --todo-soft:#2a2e35; --focus:#8fb0ff; color-scheme:dark; }
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--fg);font-family:var(--font);font-size:15px;line-height:1.6;padding-block:0 56px;padding-inline:0}
+.wrap{max-width:1080px;margin:0 auto;padding-inline:16px}
+h1,h2,h3{margin:0;line-height:1.25;text-wrap:balance}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+
+/* 헤더 */
+.hero{background:linear-gradient(135deg,#1b2740 0%,#0f172a 100%);color:#fff;padding:28px 0 22px}
+.hero .wrap{display:flex;flex-wrap:wrap;gap:16px 24px;align-items:flex-end;justify-content:space-between}
+.hero .brand{display:inline-block;padding:4px 12px;border:1.5px solid #fbbf24;color:#fbbf24;font-size:11px;font-weight:700;border-radius:20px;letter-spacing:1px;margin-bottom:10px}
+.hero h1{font-size:clamp(22px,3.2vw,30px);font-weight:800;letter-spacing:-.3px}
+.hero p{margin:6px 0 0;color:#cbd5e1;font-size:14px;max-width:60ch}
+.hero .logo{height:44px;width:auto;display:block}
+
+/* 요약 블록 */
+.summary{display:grid;grid-template-columns:1.4fr 1fr;gap:14px;margin-top:-14px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px 18px;min-width:0}
+.panel h2{font-size:13px;letter-spacing:.08em;text-transform:uppercase;color:var(--gold);font-weight:700;margin-bottom:10px}
+.meta-grid{display:grid;grid-template-columns:auto 1fr;gap:8px 12px;align-items:center;font-size:14px}
+.meta-grid label{color:var(--muted);font-weight:600;white-space:nowrap}
+.meta-grid input[type=text],.meta-grid input[type=date],.meta-grid input[type=time]{width:100%;border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:var(--surface-2)}
+.att{display:flex;flex-wrap:wrap;gap:6px 12px}
+.att label{display:inline-flex;align-items:center;gap:6px;font-weight:500;color:var(--fg);white-space:nowrap}
+.meter{display:flex;flex-direction:column;gap:8px}
+.meter .big{font-size:40px;font-weight:800;letter-spacing:-1px;line-height:1;font-variant-numeric:tabular-nums}
+.meter .big small{font-size:15px;font-weight:600;color:var(--muted);letter-spacing:0;margin-left:4px}
+.bar{height:10px;background:var(--todo-soft);border-radius:5px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--ok);border-radius:5px;width:0;transition:width .3s}
+.meter .sub{font-size:13px;color:var(--muted)}
+.statline{display:flex;gap:10px;flex-wrap:wrap;font-size:13px}
+.statline span{display:inline-flex;align-items:center;gap:5px}
+.dot{width:9px;height:9px;border-radius:50%;display:inline-block}
+.dot.ok{background:var(--ok)} .dot.warn{background:var(--warn)} .dot.todo{background:var(--todo)}
+
+/* 탭 */
+.tabs{display:flex;gap:4px;margin:22px 0 14px;border-bottom:1px solid var(--line);overflow-x:auto}
+.tabs button{background:none;border:0;border-bottom:3px solid transparent;padding:10px 14px;font-weight:700;color:var(--muted);cursor:pointer;white-space:nowrap;margin-bottom:-1px}
+.tabs button[aria-selected=true]{color:var(--navy-ink);border-bottom-color:var(--gold)}
+.tabpanel[hidden]{display:none}
+
+/* 안건 카드 */
+.agenda{display:grid;grid-template-columns:1fr;gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:18px 20px;min-width:0;display:flex;flex-direction:column;gap:12px}
+.card header{display:flex;flex-wrap:wrap;gap:8px 14px;align-items:center;justify-content:space-between}
+.card header .t{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+.card .no{font-weight:800;color:var(--gold);font-variant-numeric:tabular-nums}
+.card h3{font-size:17px;font-weight:800}
+.pill{display:inline-flex;align-items:center;gap:5px;padding:2px 10px;border-radius:999px;font-size:12px;font-weight:700;white-space:nowrap}
+.pill.ok{background:var(--ok-soft);color:var(--ok)} .pill.warn{background:var(--warn-soft);color:var(--warn)} .pill.todo{background:var(--todo-soft);color:var(--todo)}
+.pill.due{background:var(--navy-soft);color:var(--navy-ink)}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:4px 12px;font-size:14px}
+.kv dt{color:var(--muted);font-weight:600;white-space:nowrap}
+.kv dd{margin:0}
+.block h4{margin:0 0 6px;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+.check{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:6px}
+.check li{display:flex;gap:10px;align-items:flex-start}
+.check input{margin-top:5px;width:16px;height:16px;flex:none;accent-color:var(--ok)}
+.check label{cursor:pointer}
+.check input:checked+label{color:var(--muted);text-decoration:line-through}
+.decide{display:flex;flex-direction:column;gap:8px}
+.decide .q{display:grid;grid-template-columns:1fr;gap:4px;font-size:14px}
+.decide .q span{font-weight:600}
+.decide .q input,.decide .q select,.decide textarea{width:100%;border:1px solid var(--line);border-radius:8px;padding:6px 10px;background:var(--surface-2)}
+.decide textarea{min-height:64px;resize:vertical}
+.done-crit{font-size:13.5px;color:var(--muted);border-left:3px solid var(--gold);padding-left:10px}
+.card.is-ok{border-color:var(--ok)} .card.is-warn{border-color:var(--warn)}
+
+/* 타임라인 */
+.tl-head{display:flex;flex-wrap:wrap;gap:8px 16px;align-items:center;justify-content:space-between;margin-bottom:10px}
+.tl-legend{display:flex;gap:12px;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.gantt{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+.gantt table{border-collapse:collapse;min-width:760px;width:100%;font-size:13px}
+.gantt th,.gantt td{border-bottom:1px solid var(--line);padding:0;height:40px}
+.gantt th{font-weight:600;color:var(--muted);font-size:11.5px;text-align:center;height:34px;background:var(--surface-2);font-variant-numeric:tabular-nums}
+.gantt th.lbl,.gantt td.lbl{position:sticky;left:0;background:var(--surface);text-align:left;padding:0 12px;min-width:220px;font-weight:600;z-index:1;border-right:1px solid var(--line)}
+.gantt th.wk{border-left:2px solid var(--line)}
+.gantt td.day{position:relative;width:24px}
+.gantt td.wk{border-left:2px solid var(--line)}
+.gantt td.today{background:var(--gold-soft)}
+.gantt th.today{color:var(--gold);font-weight:800}
+.gantt .seg{position:absolute;left:2px;right:2px;top:12px;height:16px;border-radius:4px;background:var(--navy-soft)}
+.gantt .seg.ok{background:var(--ok-soft)} .gantt .seg.warn{background:var(--warn-soft)}
+.gantt .ms{position:absolute;left:50%;top:9px;width:22px;height:22px;transform:translateX(-50%);border-radius:50%;background:var(--navy);color:#fff;font-size:11px;font-weight:800;display:flex;align-items:center;justify-content:center;border:2px solid var(--surface)}
+.gantt .ms.ok{background:var(--ok)} .gantt .ms.warn{background:var(--warn)}
+.gantt td.lbl small{display:block;font-weight:500;color:var(--muted);font-size:12px}
+.tl-list{display:none;flex-direction:column;gap:8px}
+.tl-list .row{display:flex;gap:12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:10px 14px}
+.tl-list .d{font-weight:800;font-variant-numeric:tabular-nums;min-width:52px;color:var(--navy-ink)}
+.tl-list .n{flex:1;min-width:0}
+.tl-list .n small{display:block;color:var(--muted);font-size:12.5px}
+
+/* 회의록 */
+.minutes{display:flex;flex-direction:column;gap:14px}
+.minutes textarea{width:100%;min-height:80px;border:1px solid var(--line);border-radius:8px;padding:8px 10px;background:var(--surface-2);resize:vertical}
+.tablewrap{overflow-x:auto}
+table.plain{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+table.plain th,table.plain td{border-bottom:1px solid var(--line);padding:8px 8px;text-align:left;vertical-align:top}
+table.plain th{font-size:12px;color:var(--muted);letter-spacing:.04em;text-transform:uppercase}
+table.plain input,table.plain select{width:100%;border:1px solid var(--line);border-radius:6px;padding:5px 8px;background:var(--surface-2)}
+.actions{display:flex;flex-wrap:wrap;gap:8px}
+.btn{border:1px solid var(--line);background:var(--surface);border-radius:8px;padding:8px 14px;font-weight:700;cursor:pointer;font-size:13.5px}
+.btn.primary{background:var(--navy);color:#fff;border-color:var(--navy)}
+.btn.danger{color:var(--warn)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--navy);color:#fff;padding:10px 16px;border-radius:999px;font-size:13.5px;opacity:0;pointer-events:none;transition:opacity .2s}
+.toast.show{opacity:1}
+.note{font-size:13px;color:var(--muted)}
+.next{display:grid;grid-template-columns:1fr;gap:10px}
+.next .row{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:flex;gap:12px;align-items:baseline}
+.next .d{font-weight:800;color:var(--navy-ink);min-width:60px;font-variant-numeric:tabular-nums}
+footer.foot{text-align:center;color:var(--muted);font-size:12px;margin-top:28px}
+
+@media (min-width:860px){
+  .agenda{grid-template-columns:1fr 1fr}
+  .decide .q{grid-template-columns:200px 1fr;align-items:center}
+}
+@media (max-width:700px){
+  .summary{grid-template-columns:1fr}
+  .gantt{display:none}
+  .tl-list{display:flex}
+  .hero .logo{height:36px}
+}
+@media print{
+  .hero{background:#0f172a!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  .tabs,.actions,.toast{display:none!important}
+  .tabpanel[hidden]{display:block!important}
+  .card{break-inside:avoid}
+  body{background:#fff;color:#000}
+}
+@media (prefers-reduced-motion:reduce){ .bar i{transition:none} }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <div>
+      <div class="brand">THE BLACK EDU · 운영팀</div>
+      <h1>운영팀 10월 실행 점검 회의</h1>
+      <p>500명대 교수시스템 실행계획 중 10월까지 진행해야 하는 항목을 안건으로 묶었습니다. 체크리스트와 결정란은 이 기기 브라우저에 자동 저장되고, 회의가 끝나면 회의록을 복사해 슬랙에 붙여 넣으면 됩니다.</p>
+    </div>
+    <img class="logo" src="../../assets/logo.png" alt="더블랙에듀">
+  </div>
+</div>
+
+<div class="wrap">
+  <section class="summary">
+    <div class="panel">
+      <h2>회의 정보</h2>
+      <div class="meta-grid">
+        <label for="m-date">일시</label>
+        <div style="display:flex;gap:8px;flex-wrap:wrap"><input type="date" id="m-date" data-store="m-date" style="flex:1;min-width:150px"><input type="time" id="m-time" data-store="m-time" style="width:120px"></div>
+        <label for="m-place">장소</label>
+        <input type="text" id="m-place" data-store="m-place" placeholder="예: 4층 L강의실">
+        <label>참석</label>
+        <div class="att">
+          <label><input type="checkbox" data-store="att-ceo" checked> 원장</label>
+          <label><input type="checkbox" data-store="att-vp" checked> 부원장</label>
+          <label><input type="checkbox" data-store="att-mgr" checked> 실장</label>
+          <label><input type="checkbox" data-store="att-etc"> 기타</label>
+          <input type="text" data-store="att-etc-name" placeholder="기타 참석자" style="width:140px;border:1px solid var(--line);border-radius:8px;padding:4px 8px;background:var(--surface-2)">
+        </div>
+        <label for="m-writer">기록</label>
+        <input type="text" id="m-writer" data-store="m-writer" placeholder="회의록 작성자">
+      </div>
+    </div>
+    <div class="panel meter">
+      <h2>체크리스트 진척</h2>
+      <div class="big"><span id="pct">0</span>%<small id="cnt">0 / 0</small></div>
+      <div class="bar"><i id="barfill"></i></div>
+      <div class="statline" id="statline"></div>
+      <div class="sub">안건 6건 · 마감은 2026-10-06부터 10-31까지. 마감이 지났는데 체크가 남은 안건은 주황색으로 표시됩니다.</div>
+    </div>
+  </section>
+
+  <div class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" data-tab="agenda">안건 · 체크리스트</button>
+    <button role="tab" aria-selected="false" data-tab="timeline">10월 타임라인</button>
+    <button role="tab" aria-selected="false" data-tab="minutes">회의록 · 계획안 점검</button>
+    <button role="tab" aria-selected="false" data-tab="next">11월 이후</button>
+  </div>
+
+  <!-- 안건 -->
+  <section class="tabpanel" id="tab-agenda" role="tabpanel">
+    <div class="agenda" id="agenda"></div>
+  </section>
+
+  <!-- 타임라인 -->
+  <section class="tabpanel" id="tab-timeline" role="tabpanel" hidden>
+    <div class="tl-head">
+      <h2 style="font-size:17px">10월 마감 타임라인</h2>
+      <div class="tl-legend"><span><i class="dot ok"></i> 완료</span><span><i class="dot warn"></i> 마감 지남·미완</span><span><i class="dot todo"></i> 진행 중·예정</span><span>■ 오늘</span></div>
+    </div>
+    <div class="gantt" id="gantt"></div>
+    <div class="tl-list" id="tl-list"></div>
+    <p class="note" style="margin-top:10px">막대는 회의일(또는 10월 1일)부터 마감일까지, 동그라미 숫자는 안건 번호입니다. 1-5(시험지 분석)는 학교별 시험 종료 후 2주라 막대 없이 표시합니다.</p>
+  </section>
+
+  <!-- 회의록 -->
+  <section class="tabpanel" id="tab-minutes" role="tabpanel" hidden>
+    <div class="minutes">
+      <div class="panel">
+        <h2>계획안 점검표</h2>
+        <p class="note" style="margin-bottom:8px">안건마다 제안된 마감과 담당이 현실적인지 확인하고, 조정하면 사유를 남깁니다. 조정 내용은 회의 뒤 슬랙 캔버스·캘린더에 반영합니다.</p>
+        <div class="tablewrap">
+          <table class="plain" id="review"></table>
+        </div>
+      </div>
+      <div class="panel">
+        <h2>결정 사항 · 논의 내용</h2>
+        <textarea data-store="min-decisions" placeholder="안건별 결정 사항을 적습니다. 안건 탭의 '회의에서 정할 것' 입력값은 회의록에 자동으로 함께 들어갑니다."></textarea>
+      </div>
+      <div class="panel">
+        <h2>액션 아이템</h2>
+        <div class="tablewrap">
+          <table class="plain" id="actions-table">
+            <thead><tr><th style="width:44%">할 일</th><th>담당</th><th style="width:150px">기한</th><th style="width:40px"></th></tr></thead>
+            <tbody id="actions-body"></tbody>
+          </table>
+        </div>
+        <div class="actions" style="margin-top:10px"><button class="btn" id="add-action">+ 행 추가</button></div>
+      </div>
+      <div class="panel">
+        <h2>다음 회의</h2>
+        <div class="meta-grid">
+          <label for="n-date">일시</label>
+          <input type="date" id="n-date" data-store="n-date">
+          <label for="n-topic">주요 안건</label>
+          <input type="text" id="n-topic" data-store="n-topic" placeholder="예: 2단계 착수 — 데일리 입력 양식, 정기상담 주간">
+        </div>
+      </div>
+      <div class="actions">
+        <button class="btn primary" id="copy-md">회의록 복사 (슬랙에 붙여넣기)</button>
+        <button class="btn" id="dl-md">회의록 .md 저장</button>
+        <button class="btn" id="print">인쇄</button>
+        <button class="btn danger" id="reset">이 기기 기록 초기화</button>
+      </div>
+      <p class="note">저장 위치: 이 브라우저(localStorage)에만 저장됩니다. 다른 기기에서는 보이지 않으니 회의가 끝나면 복사해 두세요.</p>
+    </div>
+  </section>
+
+  <!-- 11월 이후 -->
+  <section class="tabpanel" id="tab-next" role="tabpanel" hidden>
+    <div class="next">
+      <div class="row"><span class="d">11-14</span><div>2-4 정기상담 주간 첫 시행 · 운영팀 + 강사 <small style="display:block;color:var(--muted)">상담 기조 1장, 반별 월 1회 상담 주간을 수업 일정 시트에 기입, 상담일지 양식 통일</small></div></div>
+      <div class="row"><span class="d">11-30</span><div>2-2 데일리 입력 양식 통일 · 학부모 알림 자동화 · 운영팀 + 강사 <small style="display:block;color:var(--muted)">강사 시트를 하나의 데일리 양식으로, 앱스 스크립트로 알림 자동 생성</small></div></div>
+      <div class="row"><span class="d">11-30</span><div>2-3 월말고사 첫 시행 · 강사 <small style="display:block;color:var(--muted)">학년별 공통 월말고사, 결과는 매스플랫 기록</small></div></div>
+      <div class="row"><span class="d">12-19</span><div>3-1 고등·초등·과학 커리큘럼 문서 완성 · 강사 <small style="display:block;color:var(--muted)">중등부 문서를 틀로 같은 양식, 신규 강사 인수인계용</small></div></div>
+      <div class="row"><span class="d">12-19</span><div>3-2 월반 기준표 · 심사 절차 확정 · 강사 + 운영팀</div></div>
+      <div class="row"><span class="d">12-26</span><div>3-3 구두테스트 전 반 확대 여부 결정 · 강사</div></div>
+      <div class="row"><span class="d">300명</span><div>4단계: 학교별 내신 세트 정리 · 자습실·점검 클리닉 규칙 · 인력 구조 검토</div></div>
+    </div>
+    <p class="note" style="margin-top:12px">전체 계획은 슬랙 캔버스 "500명대 교수시스템 운영팀 실행계획"에 있습니다. 이 페이지는 10월 회의용입니다.</p>
+  </section>
+
+  <footer class="foot">더블랙에듀 운영팀 내부 자료 · 2026-10-01 작성 · 학생 개인정보 없음</footer>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+(function(){
+  const TODAY = new Date(); TODAY.setHours(0,0,0,0);
+  const KEY = 'ops-meeting-2026-10:';
+  const ls = {
+    get(k){ try{ return localStorage.getItem(KEY+k); }catch(e){ return null; } },
+    set(k,v){ try{ localStorage.setItem(KEY+k,v); }catch(e){} },
+    clear(){ try{ Object.keys(localStorage).filter(k=>k.startsWith(KEY)).forEach(k=>localStorage.removeItem(k)); }catch(e){} }
+  };
+
+  // ── 안건 데이터 ──────────────────────────────────────────────
+  const AGENDA = [
+    { id:'1-3', title:'전화 문의 집계 시작', owner:'부원장', due:'2026-10-06', dueLabel:'10-06 기록 시작',
+      why:'문의·상담 건수 기록이 없어 올해 목표인 신규 상담 전환율 90%를 측정할 수 없음. 상담통합관리 시트는 테스트·샘플수업까지 진행한 학생만 기록됨.',
+      decide:[
+        {k:'form', q:'기록 양식', type:'select', opts:['상담통합관리 시트에 탭 추가','별도 구글시트 신설','종이 대장 후 주 1회 입력']},
+        {k:'fields', q:'기록 항목 확정', type:'text', ph:'날짜 · 학년 · 과목 · 문의 유형 · 다음 행동(테스트 예약/방문/보류)'},
+        {k:'basis', q:'전환율 기준 정의', type:'select', opts:['문의 기준 (전화 문의 → 등록)','상담 진행 기준 (테스트·상담 → 등록)','두 가지 모두 산출']},
+        {k:'report', q:'월간 집계 보고일', type:'text', ph:'예: 매월 1일 운영팀 회의'}
+      ],
+      checks:['기록 양식 만들기(열 구성 확정)','부원장 전화 응대 자리에 양식 비치·링크 고정','10월 첫 주 기록 시작','10월 말 문의→상담→등록 집계표 1차 작성'],
+      done:'10월 첫 월간 집계표가 운영팀 회의에 공유됨' },
+    { id:'1-1', title:'신규생 등원 체크리스트', owner:'운영팀', due:'2026-10-17', dueLabel:'10-17',
+      why:'등록 후 첫 달 등원 관리가 강사 개인에게 맡겨져 있음. 올해 신규 128명을 받고도 퇴원 82명으로 순증이 38명에 그쳐, 초기 이탈 관리가 지렛대.',
+      decide:[
+        {k:'sheet', q:'시트 열 추가 담당', type:'text', ph:'누가 · 언제까지'},
+        {k:'card', q:'인계 카드 전달 채널', type:'select', opts:['카카오워크 (현행 샘플수업 안내와 동일)','슬랙 #운영팀-업무','구글시트 공유 탭']},
+        {k:'call', q:'등원 콜 담당·멘트', type:'text', ph:'1주·2주·4주차 전화 담당, 확인 질문 3가지'},
+        {k:'log', q:'콜 결과 기록 위치', type:'text', ph:'예: 상담통합관리 시트 등원 탭'}
+      ],
+      checks:['상담통합관리 시트에 단계별 담당자·기한 열 추가','강사 인계 카드 양식 1장 제작','첫 4주 등원 콜 규칙 확정(1주·2주·4주)','10월 신규 등록생부터 적용 시작'],
+      done:'10월 신규 등록생 전원이 체크리스트로 관리됨' },
+    { id:'1-2', title:'신규생 OT 패키지', owner:'운영팀 + 강사', due:'2026-10-24', dueLabel:'10-24',
+      why:'현재는 구두 안내. 수업 규칙·코칭·점검 클리닉·과제 앱 사용법을 강사가 첫 수업에서 말로 설명해 학부모가 구조를 모른 채 시작함.',
+      decide:[
+        {k:'writer', q:'학부모용 안내 1장 작성 담당', type:'text', ph:'누가 · 초안 기한'},
+        {k:'items', q:'포함 항목 확정', type:'text', ph:'시간표 · 티칭2+코칭1 · 과제 규칙 · 점검 클리닉 · 연락 창구 · 수업료(교육청 등록 금액)'},
+        {k:'teacher', q:'학생 OT 10분 구성 담당 강사', type:'text', ph:'예: 중등 오정훈T 초안 → 전 강사 공유'},
+        {k:'approve', q:'원장 승인 목표일', type:'text', ph:'예: 10-22'}
+      ],
+      checks:['학부모용 OT 안내 1장 초안','학생용 첫 수업 OT 10분 구성표','원장 승인','등록 당일 발송 절차를 운영팀 업무로 고정, 1-1 체크리스트에 OT 칸 추가'],
+      done:'안내문 원장 승인 후 신규생에게 발송 시작' },
+    { id:'1-4', title:'설명회 성과표', owner:'실장', due:'2026-10-31', dueLabel:'10-31',
+      why:'9/12 고교선택 설명회는 참석 30명·상담 연결 5건까지 확인됐지만 등록 전환은 미확인. 설명회별 성과를 같은 표로 비교할 수 있어야 다음 설명회 투자 판단이 가능.',
+      decide:[
+        {k:'tpl', q:'표 양식', type:'select', opts:['상담통합관리 시트에 설명회 탭 추가','별도 설명회 성과 시트','노션/캔버스 표']},
+        {k:'retro', q:'9/12 설명회 소급 입력', type:'text', ph:'등록 전환 결과 확인 담당·기한'},
+        {k:'annual', q:'연간 설명회 일정 확정', type:'text', ph:'11월 초중등 세미나, 윈터스쿨 설명회 등 날짜'},
+        {k:'d4', q:'D-4주 준비 체크리스트', type:'text', ph:'누가 초안을 만들지'}
+      ],
+      checks:['참석·상담 연결·등록 3칸 표 양식 확정','9/12 고교선택 설명회 결과 소급 입력(등록 전환 포함)','연간 설명회 일정 운영팀 캘린더 고정','D-4주 준비 체크리스트 표준화'],
+      done:'9/12 설명회 등록 전환 결과까지 채워진 표' },
+    { id:'2-1', title:'코칭 구두테스트 교사 회의 결정', owner:'원장 + 강사 (운영팀 진행·기록)', due:'2026-10-31', dueLabel:'10-31 회의 결정',
+      why:'학생 AI 사용으로 과제 완성도와 이해도가 어긋나고, 반 인원 증가로 코칭 피드백이 희석됨. 개편안(13장)은 제작됐고 교사 회의 결정만 남음. 중간고사 후 4주 파일럿 → 겨울방학 확대가 목표.',
+      decide:[
+        {k:'when', q:'교사 회의 일시', type:'text', ph:'예: 10-2x (화) 15:00'},
+        {k:'pre', q:'자료 사전 배포', type:'select', opts:['회의 3일 전 슬랙 공유','회의 당일 배포','사전 의견 수렴 후 회의']},
+        {k:'pilot', q:'파일럿 반 제안', type:'text', ph:'제안: 중3 B1 · 중1 B1 · 고2 A1'},
+        {k:'rec', q:'결정 기록·공유 담당', type:'text', ph:'운영팀 기록 → 강사 전원 공유'}
+      ],
+      checks:['교사 회의 일정 확정·공지','회의 자료 사전 배포','안건 5개 결정(12명 이상 반 운영 · 휴대폰 · 불통과 후속 · 학부모 공개 범위 · 파일럿 반)','구두 체크카드 양식·채점 예시 답안 제작 지원','파일럿 시작(중간고사 후)'],
+      done:'결정 사항이 강사 전원에게 공유되고 파일럿 시작' },
+    { id:'1-5', title:'시험지 분석 레포트 일정 관리', owner:'운영팀 (제작은 강사)', due:null, dueLabel:'각 학교 시험 종료 후 2주',
+      why:'둔촌고·동북고 1학년 중간고사 분석 리포트 2건은 이미 웹에 게시됨. 학교×학년별로 시험 후 2주 내 제작되도록 배정하고, 정기상담 자료로 쓰이게 하는 루틴이 필요.',
+      decide:[
+        {k:'exam', q:'학교별 시험 일정 수집', type:'text', ph:'중·고등 2학기 중간고사 종료일 목록 담당'},
+        {k:'assign', q:'강사별 배정 방식', type:'select', opts:['담당 반의 학교를 그 강사가','학년별 담당자 지정','원장이 고등, 강사가 중등']},
+        {k:'store', q:'완성본 보관·게시', type:'select', opts:['blackedu-reports 웹 게시 + 내부 폴더','내부 폴더만','상담 자료 폴더에 PDF']}
+      ],
+      checks:['중·고등 2학기 중간고사 종료일 목록 작성','학교×학년별 제작 담당 강사 배정','완성본 보관 폴더 한 곳 지정','상담 자료로 활용 안내(성적 단정 표현 금지)'],
+      done:'중·고등 전 반 레포트 1부 이상' }
+  ];
+
+  // ── 상태 계산 ────────────────────────────────────────────────
+  function itemState(a){
+    const total=a.checks.length; let done=0;
+    a.checks.forEach((_,i)=>{ if(ls.get(`chk:${a.id}:${i}`)==='1') done++; });
+    const due = a.due ? new Date(a.due+'T00:00:00') : null;
+    let st='todo';
+    if(done===total) st='ok';
+    else if(due && due<TODAY) st='warn';
+    return {done,total,st};
+  }
+  const STLABEL={ok:'완료',warn:'마감 지남',todo:'진행 중'};
+
+  // ── 안건 렌더 ────────────────────────────────────────────────
+  const agendaEl=document.getElementById('agenda');
+  AGENDA.forEach(a=>{
+    const card=document.createElement('article'); card.className='card'; card.id='card-'+a.id;
+    const decideHtml=a.decide.map(d=>{
+      const key=`dec:${a.id}:${d.k}`;
+      if(d.type==='select'){
+        return `<div class="q"><span>${d.q}</span><select data-store="${key}"><option value="">선택</option>${d.opts.map(o=>`<option>${o}</option>`).join('')}</select></div>`;
+      }
+      return `<div class="q"><span>${d.q}</span><input type="text" data-store="${key}" placeholder="${d.ph||''}"></div>`;
+    }).join('');
+    const checksHtml=a.checks.map((c,i)=>{
+      const key=`chk:${a.id}:${i}`;
+      return `<li><input type="checkbox" id="${key}" data-store="${key}"><label for="${key}">${c}</label></li>`;
+    }).join('');
+    card.innerHTML=`
+      <header>
+        <div class="t"><span class="no">${a.id}</span><h3>${a.title}</h3></div>
+        <div style="display:flex;gap:6px;flex-wrap:wrap"><span class="pill due">마감 ${a.dueLabel}</span><span class="pill st" data-id="${a.id}"></span></div>
+      </header>
+      <dl class="kv"><dt>담당</dt><dd>${a.owner}</dd><dt>배경</dt><dd>${a.why}</dd></dl>
+      <div class="block"><h4>회의에서 정할 것</h4><div class="decide">${decideHtml}</div></div>
+      <div class="block"><h4>체크리스트</h4><ul class="check">${checksHtml}</ul></div>
+      <div class="done-crit">완료 기준 · ${a.done}</div>`;
+    agendaEl.appendChild(card);
+  });
+
+  // ── 계획안 점검표 ────────────────────────────────────────────
+  const review=document.getElementById('review');
+  review.innerHTML=`<thead><tr><th>안건</th><th>제안 마감</th><th>담당</th><th style="width:150px">판단</th><th>조정 마감</th><th>사유 · 메모</th></tr></thead><tbody>`+
+    AGENDA.map(a=>`<tr>
+      <td><b>${a.id}</b> ${a.title}</td><td>${a.dueLabel}</td><td>${a.owner}</td>
+      <td><select data-store="rev:${a.id}:v"><option value="">미정</option><option>유지</option><option>마감 조정</option><option>담당 조정</option><option>보류</option></select></td>
+      <td><input type="date" data-store="rev:${a.id}:d"></td>
+      <td><input type="text" data-store="rev:${a.id}:m" placeholder="조정 사유"></td></tr>`).join('')+`</tbody>`;
+
+  // ── 액션 아이템 ──────────────────────────────────────────────
+  const abody=document.getElementById('actions-body');
+  function actionRows(){ try{ return JSON.parse(ls.get('actions')||'[]'); }catch(e){ return []; } }
+  function saveActions(rows){ ls.set('actions',JSON.stringify(rows)); }
+  function renderActions(){
+    const rows=actionRows(); abody.innerHTML='';
+    if(!rows.length){ rows.push({t:'',o:'',d:''}); }
+    rows.forEach((r,i)=>{
+      const tr=document.createElement('tr');
+      tr.innerHTML=`<td><input type="text" value="${esc(r.t)}" data-ai="t" data-i="${i}" placeholder="할 일"></td>
+        <td><input type="text" value="${esc(r.o)}" data-ai="o" data-i="${i}" placeholder="담당"></td>
+        <td><input type="date" value="${esc(r.d)}" data-ai="d" data-i="${i}"></td>
+        <td><button class="btn" data-del="${i}" title="삭제" style="padding:4px 8px">×</button></td>`;
+      abody.appendChild(tr);
+    });
+    saveActions(rows);
+  }
+  abody.addEventListener('input',e=>{
+    const el=e.target; if(!el.dataset.ai) return;
+    const rows=actionRows(); rows[+el.dataset.i][el.dataset.ai]=el.value; saveActions(rows);
+  });
+  abody.addEventListener('click',e=>{
+    const b=e.target.closest('[data-del]'); if(!b) return;
+    const rows=actionRows(); rows.splice(+b.dataset.del,1); saveActions(rows); renderActions();
+  });
+  document.getElementById('add-action').addEventListener('click',()=>{ const rows=actionRows(); rows.push({t:'',o:'',d:''}); saveActions(rows); renderActions(); });
+  renderActions();
+
+  // ── 저장 바인딩 ──────────────────────────────────────────────
+  function esc(s){ return String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+  function bindStores(){
+    document.querySelectorAll('[data-store]').forEach(el=>{
+      const k=el.dataset.store; const v=ls.get(k);
+      if(el.type==='checkbox'){ if(v!==null) el.checked=v==='1'; }
+      else if(v!==null) el.value=v;
+      el.addEventListener(el.type==='checkbox'||el.tagName==='SELECT'?'change':'input',()=>{
+        ls.set(k, el.type==='checkbox'?(el.checked?'1':'0'):el.value);
+        if(k.startsWith('chk:')) refresh();
+        if(k==='m-date') renderTimeline();
+      });
+    });
+  }
+  bindStores();
+
+  // ── 진척·상태 갱신 ───────────────────────────────────────────
+  function refresh(){
+    let done=0,total=0; const counts={ok:0,warn:0,todo:0};
+    AGENDA.forEach(a=>{
+      const s=itemState(a); done+=s.done; total+=s.total; counts[s.st]++;
+      const pill=document.querySelector(`.pill.st[data-id="${a.id}"]`);
+      pill.className='pill st '+s.st; pill.textContent=`${STLABEL[s.st]} ${s.done}/${s.total}`;
+      const card=document.getElementById('card-'+a.id); card.classList.toggle('is-ok',s.st==='ok'); card.classList.toggle('is-warn',s.st==='warn');
+    });
+    const pct=total?Math.round(done/total*100):0;
+    document.getElementById('pct').textContent=pct; document.getElementById('cnt').textContent=`${done} / ${total}`;
+    document.getElementById('barfill').style.width=pct+'%';
+    document.getElementById('statline').innerHTML=`<span><i class="dot ok"></i>완료 ${counts.ok}</span><span><i class="dot warn"></i>마감 지남 ${counts.warn}</span><span><i class="dot todo"></i>진행 중 ${counts.todo}</span>`;
+    renderTimeline();
+  }
+
+  // ── 타임라인 ─────────────────────────────────────────────────
+  function renderTimeline(){
+    const mdate=ls.get('m-date'); const start=mdate&&/^2026-10/.test(mdate)?+mdate.slice(8,10):1;
+    const days=[]; for(let d=1;d<=31;d++) days.push(d);
+    const dow=['일','월','화','수','목','금','토'];
+    const todayD=(TODAY.getFullYear()===2026&&TODAY.getMonth()===9)?TODAY.getDate():null;
+    let html='<table><thead><tr><th class="lbl">안건</th>';
+    days.forEach(d=>{ const w=new Date(2026,9,d).getDay(); html+=`<th class="${w===1?'wk':''} ${d===todayD?'today':''}">${d}<br><span style="font-weight:400">${dow[w]}</span></th>`; });
+    html+='</tr></thead><tbody>';
+    AGENDA.forEach(a=>{
+      const s=itemState(a); const dueD=a.due?+a.due.slice(8,10):null;
+      html+=`<tr><td class="lbl">${a.id} ${a.title}<small>${a.owner} · ${a.dueLabel}</small></td>`;
+      days.forEach(d=>{
+        const w=new Date(2026,9,d).getDay();
+        let inner='';
+        if(dueD){
+          const s0=Math.min(start,dueD);
+          if(d>=s0&&d<=dueD){ let cls='seg'; if(d===s0) cls+=' first'; if(d===dueD) cls+=' last'; inner+=`<i class="${cls} ${s.st}" style="${d===s0?'border-top-left-radius:8px;border-bottom-left-radius:8px;':''}${d===dueD?'border-top-right-radius:8px;border-bottom-right-radius:8px;':''}"></i>`; }
+          if(d===dueD) inner+=`<i class="ms ${s.st}" title="${a.title} 마감">${a.id.replace('-','')}</i>`;
+        }
+        html+=`<td class="day ${w===1?'wk':''} ${d===todayD?'today':''}">${inner}</td>`;
+      });
+      html+='</tr>';
+    });
+    html+='</tbody></table>';
+    document.getElementById('gantt').innerHTML=html;
+    // 모바일 목록
+    const list=document.getElementById('tl-list');
+    list.innerHTML=AGENDA.slice().sort((x,y)=>(x.due||'9')>(y.due||'9')?1:-1).map(a=>{
+      const s=itemState(a);
+      return `<div class="row"><span class="d">${a.due?a.due.slice(5):'시험 후'}</span><div class="n">${a.id} ${a.title}<small>${a.owner}</small></div><span class="pill ${s.st}">${STLABEL[s.st]} ${s.done}/${s.total}</span></div>`;
+    }).join('');
+  }
+
+  // ── 탭 ───────────────────────────────────────────────────────
+  const tabs=document.querySelectorAll('.tabs [role=tab]');
+  function showTab(name){
+    tabs.forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===name?'true':'false'));
+    document.querySelectorAll('.tabpanel').forEach(p=>p.hidden=p.id!=='tab-'+name);
+    ls.set('tab',name);
+  }
+  tabs.forEach(b=>b.addEventListener('click',()=>showTab(b.dataset.tab)));
+  const h=location.hash.replace('#',''); showTab(['agenda','timeline','minutes','next'].includes(h)?h:(ls.get('tab')||'agenda'));
+
+  // ── 회의록 생성 ──────────────────────────────────────────────
+  function v(k){ return ls.get(k)||''; }
+  function buildMd(){
+    const att=[['att-ceo','원장'],['att-vp','부원장'],['att-mgr','실장']].filter(x=>ls.get(x[0])!=='0').map(x=>x[1]);
+    if(ls.get('att-etc')==='1'&&v('att-etc-name')) att.push(v('att-etc-name'));
+    let md=`# 운영팀 10월 실행 점검 회의록\n\n`;
+    md+=`- 일시: ${v('m-date')||'미정'} ${v('m-time')}\n- 장소: ${v('m-place')||'-'}\n- 참석: ${att.join(', ')||'-'}\n- 기록: ${v('m-writer')||'-'}\n\n`;
+    md+=`## 안건별 결정\n\n`;
+    AGENDA.forEach(a=>{
+      const s=itemState(a);
+      md+=`### ${a.id} ${a.title} (${a.owner} · 마감 ${a.dueLabel}) — ${STLABEL[s.st]} ${s.done}/${s.total}\n`;
+      a.decide.forEach(d=>{ const val=v(`dec:${a.id}:${d.k}`); if(val) md+=`- ${d.q}: ${val}\n`; });
+      a.checks.forEach((c,i)=>{ md+=`- [${ls.get(`chk:${a.id}:${i}`)==='1'?'x':' '}] ${c}\n`; });
+      const rv=v(`rev:${a.id}:v`); if(rv){ md+=`- 계획안 점검: ${rv}${v(`rev:${a.id}:d`)?' → '+v(`rev:${a.id}:d`):''}${v(`rev:${a.id}:m`)?' ('+v(`rev:${a.id}:m`)+')':''}\n`; }
+      md+=`\n`;
+    });
+    if(v('min-decisions')) md+=`## 논의 내용\n\n${v('min-decisions')}\n\n`;
+    const rows=actionRows().filter(r=>r.t);
+    if(rows.length){ md+=`## 액션 아이템\n\n| 할 일 | 담당 | 기한 |\n|---|---|---|\n`; rows.forEach(r=>md+=`| ${r.t} | ${r.o||'-'} | ${r.d||'-'} |\n`); md+=`\n`; }
+    md+=`## 다음 회의\n\n- 일시: ${v('n-date')||'미정'}\n- 안건: ${v('n-topic')||'-'}\n`;
+    return md;
+  }
+  const toast=document.getElementById('toast'); let tt;
+  function say(m){ toast.textContent=m; toast.classList.add('show'); clearTimeout(tt); tt=setTimeout(()=>toast.classList.remove('show'),1800); }
+  document.getElementById('copy-md').addEventListener('click',()=>{
+    const md=buildMd();
+    const fallback=()=>{ const ta=document.createElement('textarea'); ta.value=md; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); say('복사했습니다'); }catch(e){ say('복사 실패 — .md 저장을 이용하세요'); } ta.remove(); };
+    if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(md).then(()=>say('회의록을 복사했습니다'),fallback); } else fallback();
+  });
+  document.getElementById('dl-md').addEventListener('click',()=>{
+    const blob=new Blob([buildMd()],{type:'text/markdown;charset=utf-8'}); const a=document.createElement('a');
+    a.href=URL.createObjectURL(blob); a.download=`운영팀_회의록_${v('m-date')||'2026-10'}.md`; document.body.appendChild(a); a.click(); a.remove();
+  });
+  document.getElementById('print').addEventListener('click',()=>window.print());
+  document.getElementById('reset').addEventListener('click',()=>{
+    const b=document.getElementById('reset');
+    if(b.dataset.arm!=='1'){ b.dataset.arm='1'; b.textContent='정말 초기화하려면 한 번 더 누르세요'; setTimeout(()=>{ b.dataset.arm=''; b.textContent='이 기기 기록 초기화'; },3000); return; }
+    ls.clear(); location.reload();
+  });
+
+  refresh();
+})();
+</script>
+</body>
+</html>
