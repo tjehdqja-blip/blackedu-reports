@@ -1,0 +1,604 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>더블랙에듀 강사 지원</title>
+<meta name="description" content="더블랙에듀 중등부(중1·2) 수학 강사 사전 질문지와 면접 일정 선택">
+<meta name="robots" content="noindex, nofollow">
+<meta property="og:title" content="더블랙에듀 중등부 수학 강사 지원서">
+<meta property="og:description" content="사전 질문 10문항 · 면접 일정 선택 (약 15분)">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Nanum+Myeongjo:wght@400;700;800&display=swap">
+<style>
+  :root {
+    --paper: #f7f6f2; --paper-2: #efede6; --card: #ffffff;
+    --ink: #10203a; --ink-2: #4a5567; --muted: #7b8494; --rule: #d9d5ca;
+    --navy: #0b1b33; --navy-2: #122646; --gold: #b8922a; --gold-soft: #e9d9a8;
+    --on-navy: #f4f1e8; --on-navy-2: #b8c2d4; --danger: #b3412e;
+    --display: "Nanum Myeongjo", "Apple SD Gothic Neo", serif;
+    --body: "Noto Sans KR", "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0b1526; --paper-2: #101d33; --card: #0f1c31; --ink: #eef0f3; --ink-2: #b9c1cf; --muted: #7f8ba0;
+      --rule: #23324d; --navy: #06101f; --navy-2: #0d1a30; --gold: #d2ac45; --gold-soft: #6b5520;
+      --on-navy: #f4f1e8; --on-navy-2: #b8c2d4; --danger: #e07a66; color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0b1526; --paper-2: #101d33; --card: #0f1c31; --ink: #eef0f3; --ink-2: #b9c1cf; --muted: #7f8ba0;
+    --rule: #23324d; --navy: #06101f; --navy-2: #0d1a30; --gold: #d2ac45; --gold-soft: #6b5520;
+    --on-navy: #f4f1e8; --on-navy-2: #b8c2d4; --danger: #e07a66; color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 16px; line-height: 1.7; word-break: keep-all; overflow-wrap: anywhere; }
+  h1, h2, h3, p { margin: 0; }
+  h1, h2 { text-wrap: balance; }
+  button, input, textarea { font: inherit; color: inherit; }
+  .wrap { max-width: 760px; margin: 0 auto; padding-inline: 20px; }
+  @media (max-width: 480px) { .wrap { padding-inline: 16px; } }
+  [hidden] { display: none !important; }
+
+  /* top bar */
+  .bar { position: sticky; top: 0; z-index: 10; background: var(--paper); border-bottom: 1px solid var(--rule); }
+  .bar .wrap { display: flex; align-items: center; gap: 12px; height: 52px; }
+  .brand { font-family: var(--display); font-weight: 800; font-size: 15px; white-space: nowrap; }
+  .brand small { font-family: var(--body); font-weight: 500; color: var(--gold); letter-spacing: .12em; font-size: 10px; margin-left: 8px; }
+  .bar .count { margin-left: auto; font-size: 13px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .progress { height: 3px; background: var(--rule); }
+  .progress i { display: block; height: 100%; width: 0; background: var(--gold); transition: width .3s ease; }
+
+  /* hero */
+  .hero { background: var(--navy); color: var(--on-navy); padding-block: 56px 48px; position: relative; overflow: hidden; }
+  .hero::after { content: ""; position: absolute; inset: 0; background: repeating-linear-gradient(135deg, transparent 0 46px, rgba(255,255,255,.035) 46px 47px); pointer-events: none; }
+  .hero .wrap { position: relative; }
+  .eyebrow { font-size: 12px; letter-spacing: .18em; color: var(--gold); font-weight: 500; }
+  .hero h1 { font-family: var(--display); font-weight: 800; font-size: clamp(28px, 6vw, 42px); line-height: 1.3; margin-top: 12px; }
+  .hero .lede { margin-top: 16px; max-width: 32em; color: var(--on-navy-2); font-size: 16.5px; font-weight: 300; }
+  .facts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; margin-top: 32px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.14); }
+  .fact b { display: block; font-family: var(--display); font-size: 22px; font-weight: 700; line-height: 1.2; font-variant-numeric: tabular-nums; }
+  .fact span { display: block; font-size: 12px; color: var(--on-navy-2); margin-top: 4px; }
+  @media (max-width: 560px) { .facts { grid-template-columns: repeat(2, 1fr); } }
+
+  .intro { padding-block: 36px 56px; }
+  .intro ol { margin: 0; padding: 0; list-style: none; counter-reset: s; display: grid; gap: 2px; }
+  .intro li { counter-increment: s; display: grid; grid-template-columns: 34px 1fr; padding: 12px 0; border-bottom: 1px solid var(--rule); }
+  .intro li::before { content: counter(s, decimal-leading-zero); font-family: var(--display); color: var(--gold); font-size: 14px; padding-top: 1px; }
+  .intro li b { display: block; font-size: 15.5px; }
+  .intro li span { color: var(--ink-2); font-size: 14px; }
+  .resume { margin-top: 18px; font-size: 14px; color: var(--ink-2); background: var(--paper-2); border-radius: 8px; padding: 12px 14px; }
+
+  /* steps */
+  .step { padding-block: 32px 40px; }
+  .step-head .eyebrow { display: block; }
+  .step-head h2 { font-family: var(--display); font-size: clamp(22px, 4.6vw, 28px); font-weight: 800; line-height: 1.35; margin-top: 6px; }
+  .step-head p { color: var(--ink-2); margin-top: 8px; font-size: 15px; }
+
+  .field { margin-top: 22px; }
+  .field > label, .field > .label { display: block; font-weight: 700; font-size: 15px; }
+  .field .req { color: var(--gold); margin-left: 4px; font-weight: 500; font-size: 13px; }
+  .field .hint { display: block; color: var(--muted); font-size: 13px; font-weight: 400; margin-top: 2px; }
+  input[type="text"], input[type="tel"], input[type="email"], input[type="url"], textarea {
+    width: 100%; margin-top: 8px; padding: 12px 14px; border: 1px solid var(--rule); border-radius: 8px;
+    background: var(--card); font-size: 16px; outline: none; transition: border-color .15s;
+  }
+  textarea { min-height: 150px; resize: vertical; line-height: 1.65; }
+  input:focus, textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px color-mix(in srgb, var(--gold) 22%, transparent); }
+  .invalid input, .invalid textarea, .invalid .seg, .invalid .opts { border-color: var(--danger) !important; }
+  .err { color: var(--danger); font-size: 13px; margin-top: 6px; display: none; }
+  .invalid .err { display: block; }
+
+  /* segmented */
+  .seg { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; border-radius: 8px; }
+  .seg label { position: relative; }
+  .seg input { position: absolute; opacity: 0; inset: 0; }
+  .seg span { display: inline-block; padding: 9px 16px; border: 1px solid var(--rule); border-radius: 999px; background: var(--card); font-size: 15px; cursor: pointer; transition: all .15s; }
+  .seg input:checked + span { background: var(--navy); color: var(--on-navy); border-color: var(--navy); }
+  :root[data-theme="dark"] .seg input:checked + span { background: var(--gold); color: var(--navy); border-color: var(--gold); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .seg input:checked + span { background: var(--gold); color: var(--navy); border-color: var(--gold); } }
+  .seg input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+  /* choice questions */
+  .q { margin-top: 30px; padding-top: 24px; border-top: 1px solid var(--rule); }
+  .q:first-of-type { border-top: 0; padding-top: 0; }
+  .q-num { font-family: var(--display); color: var(--gold); font-size: 14px; letter-spacing: .06em; }
+  .q-title { font-size: 17px; font-weight: 700; margin-top: 4px; line-height: 1.5; }
+  .opts { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 12px; border-radius: 10px; }
+  @media (max-width: 560px) { .opts { grid-template-columns: 1fr; } }
+  .opt { position: relative; display: block; }
+  .opt input { position: absolute; opacity: 0; inset: 0; }
+  .opt span { display: flex; gap: 10px; align-items: flex-start; height: 100%; padding: 13px 14px; border: 1px solid var(--rule); border-radius: 10px; background: var(--card); cursor: pointer; font-size: 15px; line-height: 1.5; transition: all .15s; }
+  .opt span::before { content: attr(data-n); flex: none; width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--rule); display: grid; place-items: center; font-size: 12px; color: var(--muted); margin-top: 1px; }
+  .opt input:checked + span { border-color: var(--gold); background: color-mix(in srgb, var(--gold) 10%, var(--card)); }
+  .opt input:checked + span::before { background: var(--gold); border-color: var(--gold); color: var(--navy); font-weight: 700; }
+  .opt input:focus-visible + span { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .reason { margin-top: 10px; }
+  .reason input { margin-top: 0; font-size: 15px; padding: 10px 12px; }
+
+  .counter { display: flex; justify-content: space-between; font-size: 12.5px; color: var(--muted); margin-top: 6px; font-variant-numeric: tabular-nums; }
+  .counter .ok { color: var(--gold); }
+
+  /* slots */
+  .tabs { display: flex; gap: 8px; margin-top: 22px; overflow-x: auto; padding-bottom: 2px; }
+  .tab { flex: 1 0 auto; min-width: 120px; padding: 12px 14px; border: 1px solid var(--rule); border-radius: 10px; background: var(--card); cursor: pointer; text-align: left; }
+  .tab b { display: block; font-family: var(--display); font-size: 19px; line-height: 1.2; }
+  .tab small { color: var(--muted); font-size: 12.5px; }
+  .tab[aria-selected="true"] { background: var(--navy); color: var(--on-navy); border-color: var(--gold); box-shadow: inset 0 -3px 0 var(--gold); }
+  .tab[aria-selected="true"] small { color: var(--on-navy-2); }
+  .times { display: grid; grid-template-columns: repeat(6, 1fr); gap: 8px; margin-top: 12px; }
+  @media (max-width: 640px) { .times { grid-template-columns: repeat(3, 1fr); } }
+  .time { position: relative; padding: 14px 4px; border: 1px solid var(--rule); border-radius: 10px; background: var(--card); cursor: pointer; font-size: 17px; font-weight: 500; font-variant-numeric: tabular-nums; transition: all .15s; }
+  .time:hover:not(:disabled) { border-color: var(--gold); }
+  .time:disabled { cursor: not-allowed; color: var(--muted); background: var(--paper-2); text-decoration: line-through; }
+  .time:disabled::after { content: "마감"; display: block; font-size: 11px; text-decoration: none; }
+  .time.s1 { background: var(--gold); border-color: var(--gold); color: var(--navy); font-weight: 700; }
+  .time.s2 { border-color: var(--gold); border-width: 2px; color: var(--ink); }
+  .time .badge { position: absolute; top: -8px; right: -6px; font-size: 10.5px; font-weight: 700; background: var(--navy); color: var(--on-navy); border-radius: 999px; padding: 1px 7px; }
+  .picked { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 18px; }
+  .picked div { border: 1px dashed var(--rule); border-radius: 10px; padding: 12px 14px; min-width: 0; }
+  .picked div.on { border-style: solid; border-color: var(--gold); }
+  .picked small { display: block; font-size: 12px; color: var(--muted); letter-spacing: .04em; }
+  .picked b { font-size: 16px; }
+  .slot-note { font-size: 13.5px; color: var(--ink-2); margin-top: 12px; }
+  .slot-msg { margin-top: 14px; padding: 12px 14px; border-radius: 8px; background: var(--paper-2); font-size: 14px; }
+  .slot-msg.warn { background: color-mix(in srgb, var(--danger) 12%, var(--paper)); color: var(--ink); }
+
+  /* review */
+  .review { margin-top: 22px; border-top: 1px solid var(--rule); }
+  .review dl { margin: 0; display: grid; grid-template-columns: 120px 1fr; }
+  .review dt, .review dd { padding: 10px 0; border-bottom: 1px solid var(--rule); font-size: 14.5px; }
+  .review dt { color: var(--muted); }
+  .review dd { margin: 0; min-width: 0; white-space: pre-wrap; }
+  @media (max-width: 480px) { .review dl { grid-template-columns: 1fr; } .review dt { border-bottom: 0; padding-bottom: 0; } }
+  .agree { display: flex; gap: 10px; align-items: flex-start; margin-top: 22px; padding: 14px; border: 1px solid var(--rule); border-radius: 10px; background: var(--card); font-size: 14px; color: var(--ink-2); cursor: pointer; }
+  .agree input { width: 20px; height: 20px; margin: 2px 0 0; accent-color: var(--gold); flex: none; }
+  .agree b { color: var(--ink); }
+
+  /* nav buttons */
+  .actions { display: flex; gap: 10px; margin-top: 32px; }
+  .btn { appearance: none; border: 1px solid var(--rule); background: var(--card); border-radius: 10px; padding: 14px 20px; font-size: 16px; font-weight: 500; cursor: pointer; }
+  .btn.primary { flex: 1; background: var(--navy); border-color: var(--navy); color: var(--on-navy); font-weight: 700; }
+  :root[data-theme="dark"] .btn.primary { background: var(--gold); border-color: var(--gold); color: var(--navy); }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .btn.primary { background: var(--gold); border-color: var(--gold); color: var(--navy); } }
+  .btn:disabled { opacity: .55; cursor: progress; }
+  .btn:focus-visible, .tab:focus-visible, .time:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+  .saved { font-size: 12.5px; color: var(--muted); margin-top: 10px; text-align: right; min-height: 1.2em; }
+
+  /* done */
+  .done { padding-block: 56px 72px; text-align: center; }
+  .done .mark { width: 64px; height: 64px; margin: 0 auto; border-radius: 50%; background: var(--gold); color: var(--navy); display: grid; place-items: center; font-size: 30px; font-weight: 900; }
+  .done h2 { font-family: var(--display); font-size: 28px; font-weight: 800; margin-top: 18px; }
+  .done p { color: var(--ink-2); margin-top: 10px; }
+  .done .slotbox { display: inline-block; margin-top: 22px; padding: 16px 22px; border: 1px solid var(--gold); border-radius: 12px; text-align: left; }
+  .done .slotbox small { display: block; color: var(--muted); font-size: 12.5px; }
+  .done .slotbox b { font-size: 18px; }
+
+  .demo { background: var(--gold-soft); color: var(--ink); font-size: 13px; text-align: center; padding: 6px 12px; }
+  footer { border-top: 1px solid var(--rule); padding-block: 24px 40px; font-size: 13px; color: var(--muted); }
+  footer a { color: inherit; }
+</style>
+</head>
+<body>
+
+<div class="demo" id="demoBanner" hidden>미리보기 모드 — 응답 저장 주소가 설정되지 않아 제출 내용이 저장되지 않습니다.</div>
+
+<header class="bar">
+  <div class="wrap">
+    <div class="brand">THE BLACK EDU<small>강사 지원</small></div>
+    <div class="count" id="stepCount" hidden></div>
+  </div>
+  <div class="progress" aria-hidden="true"><i id="progressBar"></i></div>
+</header>
+
+<main>
+  <!-- 0. 안내 -->
+  <div id="screen-intro">
+    <div class="hero">
+      <div class="wrap">
+        <span class="eyebrow">더블랙에듀 · 중1·2 수학</span>
+        <h1>중등부 수학 강사<br>사전 질문지</h1>
+        <p class="lede">정답을 고르는 시험이 아닙니다. 선생님이 어떤 수업을 하고 싶은지, 어떤 선생님이 되고 싶은지를 미리 듣고 싶습니다. 적어주신 내용은 면접 대화의 출발점이 됩니다.</p>
+        <div class="facts">
+          <div class="fact"><b>10문항</b><span>성향 5 · 철학·비전 5</span></div>
+          <div class="fact"><b>약 15분</b><span>작성 소요 시간</span></div>
+          <div class="fact"><b id="factDates">—</b><span>면접 가능 일자</span></div>
+          <div class="fact"><b>8명 이내</b><span>반당 정원</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="wrap intro">
+      <ol>
+        <li><div><b>기본 정보</b><span>연락처와 희망 근무일수를 적어주세요.</span></div></li>
+        <li><div><b>수업 성향 5문항</b><span>가장 가까운 것을 고르면 됩니다. 정답은 없습니다.</span></div></li>
+        <li><div><b>철학·비전 5문항</b><span>짧아도 괜찮습니다. 선생님의 생각을 솔직하게 적어주세요.</span></div></li>
+        <li><div><b>면접 일정 선택</b><span>1지망은 꼭, 2지망은 가능하면 골라주세요.</span></div></li>
+        <li><div><b>확인 후 제출</b><span>제출하면 1지망 시간이 바로 예약됩니다.</span></div></li>
+      </ol>
+      <p class="resume" id="resumeNote" hidden>작성하던 내용이 이 기기에 저장되어 있습니다. 이어서 작성할 수 있습니다.</p>
+      <div class="actions"><button class="btn primary" type="button" id="startBtn">지원서 작성 시작</button></div>
+    </div>
+  </div>
+
+  <form id="form" novalidate autocomplete="on" hidden>
+    <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;">
+
+    <!-- 1. 기본 정보 -->
+    <section class="step wrap" data-step="1" hidden>
+      <div class="step-head"><span class="eyebrow">STEP 1 · 기본 정보</span><h2>먼저, 선생님을 소개해주세요</h2></div>
+      <div class="field" data-req="text"><label for="f-name">이름<span class="req">필수</span></label><input id="f-name" name="name" type="text" autocomplete="name" maxlength="30"><p class="err">이름을 적어주세요.</p></div>
+      <div class="field" data-req="phone"><label for="f-phone">연락처<span class="req">필수</span><span class="hint">면접 확정 안내를 이 번호로 드립니다.</span></label><input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="010-0000-0000" maxlength="20"><p class="err">연락 가능한 휴대폰 번호를 적어주세요.</p></div>
+      <div class="field" data-req="email"><label for="f-email">이메일<span class="req">필수</span></label><input id="f-email" name="email" type="email" autocomplete="email" maxlength="80"><p class="err">이메일 형식을 확인해주세요.</p></div>
+      <div class="field" data-req="radio"><span class="label">희망 근무일수<span class="req">필수</span><span class="hint">요일은 면접 때 협의합니다.</span></span>
+        <div class="seg" role="radiogroup">
+          <label><input type="radio" name="days" value="주 3일"><span>주 3일</span></label>
+          <label><input type="radio" name="days" value="주 4일"><span>주 4일</span></label>
+          <label><input type="radio" name="days" value="주 5일"><span>주 5일</span></label>
+          <label><input type="radio" name="days" value="협의 희망"><span>협의 희망</span></label>
+        </div><p class="err">희망 근무일수를 골라주세요.</p></div>
+      <div class="field" data-req="radio"><span class="label">강의 경력<span class="req">필수</span></span>
+        <div class="seg" role="radiogroup">
+          <label><input type="radio" name="career" value="신입"><span>신입</span></label>
+          <label><input type="radio" name="career" value="1년 미만"><span>1년 미만</span></label>
+          <label><input type="radio" name="career" value="1~3년"><span>1~3년</span></label>
+          <label><input type="radio" name="career" value="3~5년"><span>3~5년</span></label>
+          <label><input type="radio" name="career" value="5년 이상"><span>5년 이상</span></label>
+        </div><p class="err">경력을 골라주세요.</p></div>
+      <div class="field"><label for="f-careerNote">주요 경력·학력 한 줄<span class="hint">선택 · 예) ○○학원 중등부 2년, ○○대 수학교육과</span></label><input id="f-careerNote" name="careerNote" type="text" maxlength="200"></div>
+      <div class="field"><label for="f-video">강의 영상 링크<span class="hint">선택 · 유튜브(일부 공개)·드라이브 링크 등</span></label><input id="f-video" name="video" type="url" inputmode="url" placeholder="https://" maxlength="300"></div>
+      <div class="actions"><button class="btn" type="button" data-prev>이전</button><button class="btn primary" type="button" data-next>다음</button></div>
+      <p class="saved" data-saved></p>
+    </section>
+
+    <!-- 2. 수업 성향 -->
+    <section class="step wrap" data-step="2" hidden>
+      <div class="step-head"><span class="eyebrow">STEP 2 · 수업 성향</span><h2>선생님과 가장 가까운 쪽을 골라주세요</h2><p>정답은 없습니다. 고른 이유를 한 줄 덧붙여주시면 면접에서 더 깊이 이야기 나눌 수 있습니다.</p></div>
+      <div id="choiceList"></div>
+      <div class="actions"><button class="btn" type="button" data-prev>이전</button><button class="btn primary" type="button" data-next>다음</button></div>
+      <p class="saved" data-saved></p>
+    </section>
+
+    <!-- 3. 철학·비전 -->
+    <section class="step wrap" data-step="3" hidden>
+      <div class="step-head"><span class="eyebrow">STEP 3 · 철학과 비전</span><h2>선생님의 생각을 들려주세요</h2><p>문항당 200~400자 정도면 충분합니다. 다듬은 글보다 솔직한 생각이 더 반갑습니다.</p></div>
+      <div id="essayList"></div>
+      <div class="actions"><button class="btn" type="button" data-prev>이전</button><button class="btn primary" type="button" data-next>다음</button></div>
+      <p class="saved" data-saved></p>
+    </section>
+
+    <!-- 4. 면접 일정 -->
+    <section class="step wrap" data-step="4" hidden>
+      <div class="step-head"><span class="eyebrow">STEP 4 · 면접 일정</span><h2>면접 가능한 시간을 골라주세요</h2><p>처음 누른 시간이 1지망, 다음이 2지망입니다. 다시 누르면 취소됩니다. 면접은 약 40분이며 학원(둔촌동역 3번 출구)에서 진행합니다.</p></div>
+      <div id="slotArea"><p class="slot-msg">면접 일정을 불러오는 중입니다…</p></div>
+      <input type="hidden" name="slot1"><input type="hidden" name="slot2">
+      <div class="field" data-req="slot" style="margin-top:0"><p class="err">1지망 면접 시간을 골라주세요.</p></div>
+      <div class="actions"><button class="btn" type="button" data-prev>이전</button><button class="btn primary" type="button" data-next>다음</button></div>
+      <p class="saved" data-saved></p>
+    </section>
+
+    <!-- 5. 확인 -->
+    <section class="step wrap" data-step="5" hidden>
+      <div class="step-head"><span class="eyebrow">STEP 5 · 확인 및 제출</span><h2>마지막으로 확인해주세요</h2></div>
+      <div class="review" id="review"></div>
+      <div class="field" data-req="agree" style="margin-top:0">
+        <label class="agree"><input type="checkbox" name="agree" value="동의"><span><b>개인정보 수집·이용 동의 (필수)</b><br>수집 항목: 이름, 연락처, 이메일, 경력, 질문 응답 · 목적: 강사 채용 전형 진행 · 보관: 전형 종료 후 6개월 이내 파기</span></label>
+        <p class="err">개인정보 수집·이용에 동의해주세요.</p>
+      </div>
+      <p class="slot-msg warn" id="submitMsg" hidden></p>
+      <div class="actions"><button class="btn" type="button" data-prev>이전</button><button class="btn primary" type="submit" id="submitBtn">제출하기</button></div>
+    </section>
+  </form>
+
+  <!-- 완료 -->
+  <div class="wrap done" id="screen-done" hidden>
+    <div class="mark" aria-hidden="true">✓</div>
+    <h2>지원서가 접수되었습니다</h2>
+    <p>소중한 생각을 들려주셔서 감사합니다.<br>면접 시간 확정 안내는 적어주신 연락처로 드리겠습니다.</p>
+    <div class="slotbox"><small>예약된 면접 시간 (1지망)</small><b id="doneSlot">—</b></div>
+    <p style="margin-top:22px;font-size:14px">서울 강동구 양재대로 1327 삼정빌딩 3·4층 (둔촌동역 3번 출구 100m)<br>문의 02-6052-0505</p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">더블랙에듀학원 · 서울 강동구 양재대로 1327 삼정빌딩 3·4층 · <a href="tel:0260520505">02-6052-0505</a></div>
+</footer>
+
+<script>
+/* ─────────────────────────────────────────────────────────────
+   설정 — 다음 채용 때는 여기만 바꾸면 됩니다.
+   · endpoint: 구글 Apps Script 웹 앱 주소 (README 참고)
+   · slots: 시트를 못 불러올 때만 쓰는 기본 일정.
+     endpoint가 연결되면 구글 시트 '면접일정' 탭이 우선합니다.
+   ───────────────────────────────────────────────────────────── */
+const CONFIG = {
+  endpoint: "https://script.google.com/macros/s/AKfycbz3yTaP7DvcB8Vgi1KNrMwCg0K2TwnTRE25RiGQPFrSTabpfEp_mJPWbOWDtMKQj-bcxQ/exec",
+  slots: {
+    "2026-10-06": ["11:00", "13:00", "14:00", "15:00", "16:00", "17:00"],
+    "2026-10-08": ["11:00", "13:00", "14:00", "15:00", "16:00", "17:00"]
+  }
+};
+
+const CHOICE_QS = [
+  { id: "q1", sheet: "Q1 수업의 무게중심", title: "수업에서 가장 무게를 두는 것은 무엇인가요?",
+    opts: ["개념을 ‘왜’까지 완전히 이해시키기", "다양한 문제로 풀이 감각 키우기", "스스로 질문하고 탐구하는 습관", "시험 성적으로 이어지는 실전력"] },
+  { id: "q2", sheet: "Q2 나와 닮은 선생님상", title: "나와 가장 가까운 선생님의 모습은?",
+    opts: ["명쾌하게 설명하는 강의자", "옆에서 함께 뛰는 코치", "빈틈없이 챙기는 매니저", "수학의 재미를 보여주는 안내자"] },
+  { id: "q3", sheet: "Q3 질문 대응 방식", title: "학생이 틀린 문제를 들고 왔을 때, 나는 주로…",
+    opts: ["풀이 과정을 직접 보여준다", "힌트만 주고 스스로 풀 때까지 기다린다", "어디서 막혔는지 학생이 먼저 설명하게 한다", "더 쉬운 비슷한 문제부터 다시 밟아 올라간다"] },
+  { id: "q4", sheet: "Q4 교실 분위기", title: "내가 만들고 싶은 교실 분위기는?",
+    opts: ["조용하고 몰입된 교실", "질문이 자유롭게 오가는 교실", "목표와 적당한 긴장감이 있는 교실", "편안하고 웃음이 있는 교실"] },
+  { id: "q5", sheet: "Q5 중1·2에 길러줄 힘", title: "중1·2 시기에 가장 먼저 길러줘야 할 힘은?",
+    opts: ["정확하고 빠른 연산력", "개념을 말과 글로 설명하는 힘", "스스로 계획하고 지키는 공부 습관", "‘나도 수학 할 수 있다’는 자신감"] }
+];
+
+const ESSAY_QS = [
+  { id: "q6", sheet: "Q6 교육 철학", title: "선생님의 교육 철학을 한 문장으로 표현한다면? 그렇게 생각하게 된 경험도 함께 들려주세요." },
+  { id: "q7", sheet: "Q7 수학을 놓으려는 학생", title: "“저는 원래 수학 못해요”라고 말하는 학생에게 어떻게 다가가시나요? 실제 경험이 있다면 그 이야기도 좋습니다." },
+  { id: "q8", sheet: "Q8 첫 수업 장면", title: "중1 ‘소인수분해’와 중2 ‘일차함수’ 중 하나를 골라, 첫 수업의 도입 10분을 어떻게 여실지 그려주세요." },
+  { id: "q9", sheet: "Q9 1년·3년 뒤 비전", title: "1년 뒤, 3년 뒤 선생님은 어떤 강사가 되어 있고 싶으신가요? 더블랙에듀에서 해보고 싶은 것도 함께 적어주세요." },
+  { id: "q10", sheet: "Q10 기억되고 싶은 모습", title: "학생·학부모·동료 선생님에게 각각 어떤 선생님으로 기억되고 싶으신가요?" }
+];
+const ESSAY_MIN = 30, ESSAY_MAX = 1500, ESSAY_GOAL = 200;
+
+/* ───────────────────────── 이하 동작 코드 ───────────────────────── */
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const form = $("#form");
+const F = form.elements;
+const STORE = "blackedu-apply-v1";
+const TOTAL = 5;
+let step = 0;
+let slots = [];        // [{id, date, time, booked}]
+let activeDate = null;
+let slotSource = "config";
+
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const WD = "일월화수목금토";
+function fmtDate(d) { const [y, m, dd] = d.split("-").map(Number); return `${m}/${dd}(${WD[new Date(Date.UTC(y, m - 1, dd)).getUTCDay()]})`; }
+function fmtSlot(id) { if (!id) return ""; const [d, t] = id.split(" "); return `${fmtDate(d)} ${t}`; }
+function isPast(d, t) { return new Date(`${d}T${t}:00+09:00`).getTime() < Date.now(); }
+
+/* render questions */
+$("#choiceList").innerHTML = CHOICE_QS.map((q, i) => `
+  <div class="q field" data-req="radio">
+    <div class="q-num">Q${i + 1}</div>
+    <div class="q-title" id="${q.id}-t">${esc(q.title)}</div>
+    <div class="opts" role="radiogroup" aria-labelledby="${q.id}-t">
+      ${q.opts.map((o, j) => `<label class="opt"><input type="radio" name="${q.id}" value="${esc(o)}"><span data-n="${j + 1}">${esc(o)}</span></label>`).join("")}
+    </div>
+    <p class="err">하나를 골라주세요.</p>
+    <div class="reason"><input type="text" name="${q.id}r" maxlength="200" placeholder="이렇게 고른 이유 (선택, 한 줄)" aria-label="Q${i + 1} 고른 이유"></div>
+  </div>`).join("");
+
+$("#essayList").innerHTML = ESSAY_QS.map((q, i) => `
+  <div class="q field" data-req="essay">
+    <div class="q-num">Q${CHOICE_QS.length + i + 1}</div>
+    <label class="q-title" for="${q.id}">${esc(q.title)}</label>
+    <textarea id="${q.id}" name="${q.id}" maxlength="${ESSAY_MAX}"></textarea>
+    <div class="counter"><span class="err" style="margin:0">${ESSAY_MIN}자 이상 적어주세요.</span><span></span><span data-count>0자</span></div>
+  </div>`).join("");
+
+function updateCounter(ta) {
+  const n = ta.value.trim().length, el = ta.parentElement.querySelector("[data-count]");
+  el.textContent = `${n.toLocaleString()}자 / 권장 ${ESSAY_GOAL}자 이상`;
+  el.classList.toggle("ok", n >= ESSAY_GOAL);
+}
+
+/* draft (this device only) */
+function save() {
+  try {
+    const data = {};
+    for (const [k, v] of new FormData(form)) if (k !== "website") data[k] = v;
+    data._step = step;
+    localStorage.setItem(STORE, JSON.stringify(data));
+    $$("[data-saved]").forEach(el => el.textContent = "작성 내용이 이 기기에 임시 저장되었습니다.");
+  } catch (e) {}
+}
+function load() {
+  try { return JSON.parse(localStorage.getItem(STORE) || "null"); } catch (e) { return null; }
+}
+function restore(data) {
+  if (!data) return;
+  for (const el of form.elements) {
+    if (!el.name || !(el.name in data)) continue;
+    if (el.type === "radio" || el.type === "checkbox") el.checked = el.value === data[el.name];
+    else el.value = data[el.name];
+  }
+  $$("textarea").forEach(updateCounter);
+}
+let saveT;
+form.addEventListener("input", e => {
+  e.target.closest(".field")?.classList.remove("invalid");
+  if (e.target.tagName === "TEXTAREA") updateCounter(e.target);
+  clearTimeout(saveT); saveT = setTimeout(save, 400);
+});
+form.addEventListener("change", e => {
+  e.target.closest(".field")?.classList.remove("invalid");
+  save();
+});
+
+/* validation */
+function validField(f) {
+  const t = f.dataset.req;
+  if (t === "text") return $("input", f).value.trim().length > 0;
+  if (t === "phone") return /^0\d{1,2}[-\s]?\d{3,4}[-\s]?\d{4}$/.test($("input", f).value.trim());
+  if (t === "email") return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test($("input", f).value.trim());
+  if (t === "radio") return !!$("input[type=radio]:checked", f);
+  if (t === "essay") return $("textarea", f).value.trim().length >= ESSAY_MIN;
+  if (t === "slot") return !!F.slot1.value;
+  if (t === "agree") return $("input", f).checked;
+  return true;
+}
+function validate(n) {
+  const sec = $(`[data-step="${n}"]`);
+  let first = null;
+  for (const f of $$("[data-req]", sec)) {
+    const ok = validField(f);
+    f.classList.toggle("invalid", !ok);
+    if (!ok && !first) first = f;
+  }
+  if (first) {
+    first.scrollIntoView({ behavior: "smooth", block: "center" });
+    const inp = $("input:not([type=hidden]), textarea", first);
+    if (inp && inp.type !== "radio") setTimeout(() => inp.focus({ preventScroll: true }), 300);
+  }
+  return !first;
+}
+
+/* navigation */
+function show(n) {
+  step = n;
+  $("#screen-intro").hidden = n !== 0;
+  form.hidden = n === 0;
+  $$("[data-step]").forEach(s => s.hidden = Number(s.dataset.step) !== n);
+  $("#stepCount").hidden = n === 0;
+  $("#stepCount").textContent = `${n} / ${TOTAL}`;
+  $("#progressBar").style.width = `${(n / TOTAL) * 100}%`;
+  if (n === 4) renderSlots();
+  if (n === 5) renderReview();
+  window.scrollTo({ top: 0 });
+  save();
+}
+$("#startBtn").addEventListener("click", () => { const d = load(); show(d && d._step >= 1 && d._step <= TOTAL ? d._step : 1); });
+form.addEventListener("click", e => {
+  if (e.target.matches("[data-prev]")) show(step - 1);
+  if (e.target.matches("[data-next]") && validate(step)) show(step + 1);
+});
+
+/* slots */
+function slotsFromConfig() {
+  return Object.entries(CONFIG.slots).flatMap(([d, ts]) => ts.map(t => ({ id: `${d} ${t}`, date: d, time: t, booked: false })));
+}
+async function loadSlots() {
+  let list = null;
+  if (CONFIG.endpoint) {
+    try {
+      const r = await fetch(`${CONFIG.endpoint}?action=slots&t=${Date.now()}`);
+      const j = await r.json();
+      if (j.ok && Array.isArray(j.slots)) { list = j.slots.map(s => ({ id: `${s.date} ${s.time}`, ...s })); slotSource = "sheet"; }
+    } catch (e) {}
+  }
+  if (!list) { list = slotsFromConfig(); slotSource = "config"; }
+  slots = list.filter(s => !isPast(s.date, s.time)).sort((a, b) => a.id.localeCompare(b.id));
+  const dates = [...new Set(slots.map(s => s.date))];
+  $("#factDates").textContent = dates.length ? dates.map(d => fmtDate(d).replace(/\(.\)/, "")).join(" · ") : "추후 안내";
+  for (const k of ["slot1", "slot2"]) {
+    const s = slots.find(x => x.id === F[k].value);
+    if (F[k].value && (!s || s.booked)) F[k].value = "";
+  }
+  if (!F.slot1.value && F.slot2.value) { F.slot1.value = F.slot2.value; F.slot2.value = ""; }
+  if (step === 4) renderSlots();
+}
+function renderSlots() {
+  const area = $("#slotArea");
+  const dates = [...new Set(slots.map(s => s.date))];
+  if (!dates.length) {
+    area.innerHTML = `<p class="slot-msg warn">현재 선택 가능한 면접 시간이 없습니다. 02-6052-0505로 문의해주세요.</p>`;
+    return;
+  }
+  if (!dates.includes(activeDate)) activeDate = (slots.find(s => s.id === F.slot1.value) || slots[0]).date;
+  const s1 = F.slot1.value, s2 = F.slot2.value;
+  area.innerHTML = `
+    <div class="tabs" role="tablist">${dates.map(d => {
+      const free = slots.filter(s => s.date === d && !s.booked).length;
+      return `<button type="button" class="tab" role="tab" aria-selected="${d === activeDate}" data-date="${d}"><b>${fmtDate(d)}</b><small>${free ? `${free}개 시간 가능` : "모두 마감"}</small></button>`;
+    }).join("")}</div>
+    <div class="times" role="group" aria-label="${fmtDate(activeDate)} 시간 선택">${slots.filter(s => s.date === activeDate).map(s => {
+      const cls = s.id === s1 ? "s1" : s.id === s2 ? "s2" : "";
+      const badge = s.id === s1 ? '<span class="badge">1지망</span>' : s.id === s2 ? '<span class="badge">2지망</span>' : "";
+      return `<button type="button" class="time ${cls}" data-slot="${s.id}" ${s.booked ? "disabled" : ""} aria-pressed="${!!cls}">${s.time}${badge}</button>`;
+    }).join("")}</div>
+    <div class="picked">
+      <div class="${s1 ? "on" : ""}"><small>1지망 (예약됨)</small><b>${s1 ? fmtSlot(s1) : "선택 전"}</b></div>
+      <div class="${s2 ? "on" : ""}"><small>2지망 (예비)</small><b>${s2 ? fmtSlot(s2) : "선택 안 함"}</b></div>
+    </div>
+    <p class="slot-note">‘마감’ 표시는 이미 다른 지원자가 1지망으로 예약한 시간입니다. 날짜가 다른 2지망도 선택할 수 있습니다.</p>`;
+}
+$("#slotArea").addEventListener("click", e => {
+  const tab = e.target.closest("[data-date]");
+  if (tab) { activeDate = tab.dataset.date; renderSlots(); return; }
+  const b = e.target.closest("[data-slot]");
+  if (!b || b.disabled) return;
+  const id = b.dataset.slot, f1 = F.slot1, f2 = F.slot2;
+  if (id === f1.value) { f1.value = f2.value; f2.value = ""; }
+  else if (id === f2.value) { f2.value = ""; }
+  else if (!f1.value) { f1.value = id; }
+  else { f2.value = id; }
+  $('[data-req="slot"]').classList.remove("invalid");
+  renderSlots(); save();
+});
+
+/* review + payload */
+function radio(name) { return form.querySelector(`input[name="${name}"]:checked`)?.value || ""; }
+function collect() {
+  const v = n => (F[n]?.value || "").trim();
+  const pairs = [
+    ["이름", v("name")], ["연락처", v("phone")], ["이메일", v("email")],
+    ["희망 근무일수", radio("days")], ["경력", radio("career")], ["경력·학력 메모", v("careerNote")], ["강의 영상", v("video")]
+  ];
+  CHOICE_QS.forEach(q => { pairs.push([q.sheet, radio(q.id)]); pairs.push([`${q.sheet} — 이유`, v(q.id + "r")]); });
+  ESSAY_QS.forEach(q => pairs.push([q.sheet, v(q.id)]));
+  pairs.push(["면접 1지망", fmtSlot(F.slot1.value)], ["면접 2지망", fmtSlot(F.slot2.value)], ["개인정보 동의", F.agree.checked ? "동의" : ""]);
+  return pairs;
+}
+function renderReview() {
+  const p = collect();
+  const show = ["이름", "연락처", "이메일", "희망 근무일수", "경력", "면접 1지망", "면접 2지망"];
+  const rows = p.filter(([k]) => show.includes(k)).map(([k, val]) => `<dt>${esc(k)}</dt><dd>${esc(val || "—")}</dd>`);
+  const answered = CHOICE_QS.filter(q => radio(q.id)).length + ESSAY_QS.filter(q => F[q.id].value.trim()).length;
+  rows.push(`<dt>사전 질문</dt><dd>${answered} / ${CHOICE_QS.length + ESSAY_QS.length}문항 작성</dd>`);
+  $("#review").innerHTML = `<dl>${rows.join("")}</dl>`;
+}
+
+form.addEventListener("submit", async e => {
+  e.preventDefault();
+  if (!validate(5)) return;
+  for (let n = 1; n <= 4; n++) if (!validate(n)) { show(n); validate(n); return; }
+  const btn = $("#submitBtn"), msg = $("#submitMsg");
+  msg.hidden = true; btn.disabled = true; btn.textContent = "제출 중…";
+  const payload = { website: F.website.value, name: F.name.value.trim(), slot1: F.slot1.value, slot2: F.slot2.value, fields: collect() };
+  try {
+    let res = { ok: true };
+    if (CONFIG.endpoint) {
+      const r = await fetch(CONFIG.endpoint, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
+      res = await r.json();
+    } else {
+      await new Promise(r => setTimeout(r, 600));
+    }
+    if (res.ok) {
+      $("#doneSlot").textContent = fmtSlot(payload.slot1);
+      try { localStorage.removeItem(STORE); } catch (e) {}
+      form.hidden = true; $("#screen-done").hidden = false;
+      $("#stepCount").hidden = true; $("#progressBar").style.width = "100%";
+      window.scrollTo({ top: 0 });
+      return;
+    }
+    if (res.code === "slot_taken") {
+      await loadSlots();
+      msg.textContent = "방금 다른 지원자가 1지망 시간을 먼저 예약했습니다. 면접 시간을 다시 골라주세요.";
+      msg.hidden = false;
+      show(4);
+      $("#slotArea").insertAdjacentHTML("afterbegin", `<p class="slot-msg warn">${esc(msg.textContent)}</p>`);
+      return;
+    }
+    throw new Error(res.message || "error");
+  } catch (err) {
+    msg.textContent = "제출 중 문제가 생겼습니다. 잠시 후 다시 눌러주세요. 계속 안 되면 02-6052-0505로 연락 부탁드립니다. (작성 내용은 이 기기에 저장되어 있습니다)";
+    msg.hidden = false;
+  } finally {
+    btn.disabled = false; btn.textContent = "제출하기";
+  }
+});
+
+/* init */
+(function init() {
+  $("#demoBanner").hidden = !!CONFIG.endpoint;
+  const d = load();
+  if (d) { restore(d); $("#resumeNote").hidden = false; $("#startBtn").textContent = "이어서 작성하기"; }
+  $$("textarea").forEach(updateCounter);
+  loadSlots();
+})();
+</script>
+</body>
+</html>
