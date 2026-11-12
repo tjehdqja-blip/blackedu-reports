@@ -12,6 +12,7 @@
 | 동북고 1학년 2026학년도 2학기 중간고사 공통수학2 | https://tjehdqja-blip.github.io/blackedu-reports/dongbuk-h1-2026-2-mid-math2/ |
 | 둔촌고 1학년 2026학년도 2학기 중간고사 공통수학2 | https://tjehdqja-blip.github.io/blackedu-reports/dunchon-h1-2026-2-mid-math2/ |
 | 매쓰클랜 2기 모집 | https://tjehdqja-blip.github.io/blackedu-reports/recruit/mathclan2/ |
+| 티칭 수업 구조 조사(강사용 설문, 목록 비노출) | https://tjehdqja-blip.github.io/blackedu-reports/teaching-survey-2026-11/ |
 
 ## 구조
 
