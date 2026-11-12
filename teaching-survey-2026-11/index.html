@@ -1,0 +1,358 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="robots" content="noindex,nofollow"><style>:root{color-scheme:light;box-sizing:border-box}body{margin:0;padding:0}img{max-width:100%}[hidden]{display:none!important}</style></head><body>
+<title>티칭 수업 구조 조사</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@600;800&display=swap">
+<style>
+/* 레이아웃: 네이비 표지 밴드 → 종이색 본문(섹션 카드 8개, 좌측 고정 목차 ≥900px) → 네이비 제출 밴드. DESIGN.md 토큰 그대로. */
+:root {
+  --navy:      #1b2a52;
+  --gold:      #c8961e;
+  --gold-soft: #f6ecd2;
+  --on-navy:   #f3e6b8;
+  --on-navy-2: #c9d0e6;
+  --white:     #ffffff;
+  --ink:       #18213a;
+  --ink-2:     #4a5567;
+  --line:      #dfe3ec;
+  --bg-2:      #eceef4;
+  --bg:        #f6f7fa;
+  --surface:   #ffffff;
+  --ok:        #2f7a55;
+  --warn:      #b3412e;
+  --font-body:    "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+  --font-display: "Noto Serif KR", "Nanum Myeongjo", serif;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --navy: #1f2f5c; --gold: #e2b448; --gold-soft: #2e2814;
+  --ink: #e7eaf3; --ink-2: #b9c1cf; --line: #2a3350; --bg-2: #101d33; --bg: #0f1424; --surface: #161d33;
+  --ok: #6cc49a; --warn: #e07a66; color-scheme: dark; } }
+:root[data-theme="dark"] {
+  --navy: #1f2f5c; --gold: #e2b448; --gold-soft: #2e2814;
+  --ink: #e7eaf3; --ink-2: #b9c1cf; --line: #2a3350; --bg-2: #101d33; --bg: #0f1424; --surface: #161d33;
+  --ok: #6cc49a; --warn: #e07a66; color-scheme: dark; }
+
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--bg); color: var(--ink); font-family: var(--font-body); font-size: 16px; line-height: 1.6; word-break: keep-all; font-variant-numeric: tabular-nums; }
+.gutter { padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+.wrap { max-width: 1080px; margin: 0 auto; }
+
+header.hero { background: var(--navy); color: var(--on-navy); }
+header.hero .wrap { padding-block: 44px 40px; display: grid; gap: 12px; }
+.eyebrow { font-size: 13px; letter-spacing: .12em; color: var(--gold); font-weight: 500; }
+header h1 { font-family: var(--font-display); font-weight: 800; font-size: clamp(28px, 5vw, 44px); color: var(--white); margin: 0; line-height: 1.2; text-wrap: balance; }
+header .thesis { font-family: var(--font-display); font-weight: 600; font-size: clamp(17px, 2.6vw, 22px); color: var(--on-navy); border-top: 1px solid rgba(243,230,184,.35); border-bottom: 1px solid rgba(243,230,184,.35); padding-block: 12px; margin: 0; max-width: 60ch; }
+header .meta { font-size: 14px; color: var(--on-navy-2); margin: 0; }
+
+main .wrap { padding-block: 32px 48px; display: grid; grid-template-columns: 1fr; gap: 32px; }
+@media (min-width: 900px) { main .wrap { grid-template-columns: 200px minmax(0, 1fr); align-items: start; } }
+nav.toc { display: none; position: sticky; top: calc(env(safe-area-inset-top, 0px) + 16px); }
+@media (min-width: 900px) { nav.toc { display: block; } }
+nav.toc ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 14px; }
+nav.toc a { color: var(--ink-2); text-decoration: none; display: flex; gap: 8px; }
+nav.toc a .no { color: var(--gold); font-weight: 600; min-width: 1.6em; }
+nav.toc a:hover, nav.toc a:focus-visible { color: var(--ink); }
+.toc .status { margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); font-size: 13px; color: var(--ink-2); }
+
+.sections { display: grid; gap: 28px; min-width: 0; }
+section.card { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 20px; display: grid; gap: 14px; min-width: 0; }
+section.card h2 { font-family: var(--font-display); font-weight: 800; font-size: clamp(20px, 3vw, 24px); margin: 0; display: flex; gap: 12px; align-items: baseline; color: var(--ink); }
+section.card h2 .no { font-family: var(--font-body); font-size: 14px; color: var(--gold); font-weight: 600; letter-spacing: .06em; }
+section.card .lead { margin: 0; color: var(--ink-2); font-size: 15px; max-width: 65ch; }
+
+.grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.field { display: grid; gap: 6px; min-width: 0; }
+.field > span, .field > label.k { font-size: 13px; color: var(--ink-2); letter-spacing: .04em; font-weight: 600; }
+input[type=text], input[type=number], input[type=date], select, textarea { width: 100%; font: inherit; font-size: 15px; color: var(--ink); background: var(--bg); border: 1px solid var(--line); border-radius: 6px; padding: 8px 10px; min-width: 0; }
+textarea { min-height: 64px; resize: vertical; line-height: 1.5; }
+input:focus-visible, select:focus-visible, textarea:focus-visible, button:focus-visible, a:focus-visible { outline: 2px solid var(--gold); outline-offset: 1px; }
+.checks { display: flex; flex-wrap: wrap; gap: 8px 14px; }
+.checks label { display: inline-flex; align-items: center; gap: 6px; font-size: 15px; }
+.checks input { accent-color: var(--navy); width: 16px; height: 16px; margin: 0; }
+
+.tw { border: 1px solid var(--line); border-radius: 6px; overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 15px; }
+th { background: var(--bg-2); color: var(--ink-2); font-size: 13px; font-weight: 600; letter-spacing: .04em; text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+td { padding: 8px 10px; border-bottom: 1px solid var(--line); vertical-align: top; }
+tr:last-child td { border-bottom: 0; }
+td.k { font-weight: 600; min-width: 180px; max-width: 280px; }
+td input, td select, td textarea { padding: 6px 8px; font-size: 14px; }
+td select.do { width: 84px; }
+td input.min { width: 72px; }
+td textarea { min-height: 40px; }
+.hint { font-size: 13px; color: var(--ink-2); margin: 0; }
+.sub { font-family: var(--font-display); font-weight: 600; font-size: 17px; margin: 6px 0 0; }
+
+.quote { background: var(--gold-soft); border-left: 4px solid var(--gold); padding: 14px 16px; font-family: var(--font-display); font-weight: 600; font-size: 17px; max-width: 60ch; margin: 0; }
+
+footer.submit { background: var(--navy); color: var(--on-navy); }
+footer.submit .wrap { padding-block: 36px 44px; display: grid; gap: 16px; }
+footer h2 { font-family: var(--font-display); font-weight: 800; font-size: clamp(20px, 3vw, 26px); color: var(--white); margin: 0; }
+footer p { margin: 0; font-size: 15px; max-width: 65ch; }
+footer .small { font-size: 13px; color: var(--on-navy-2); }
+.actions { display: flex; flex-wrap: wrap; gap: 10px; }
+button { font: inherit; font-size: 15px; font-weight: 600; border-radius: 6px; padding: 10px 18px; cursor: pointer; border: 1px solid transparent; }
+button.primary { background: var(--gold); color: var(--navy); }
+button.ghost { background: transparent; color: var(--white); border-color: rgba(243,230,184,.5); }
+button.light { background: var(--surface); color: var(--navy); border-color: var(--line); }
+button[disabled] { opacity: .55; cursor: default; }
+.toast { font-size: 14px; padding: 10px 14px; border-radius: 6px; background: rgba(243,230,184,.12); border: 1px solid rgba(243,230,184,.35); color: var(--on-navy); }
+.toast.ok { color: var(--white); }
+.toast.warn { border-color: rgba(224,122,102,.6); }
+pre.out { margin: 0; background: var(--surface); color: var(--ink); border: 1px solid var(--line); border-radius: 6px; padding: 14px; font: 13px/1.5 ui-monospace, Consolas, monospace; white-space: pre-wrap; word-break: break-word; max-height: 360px; overflow: auto; }
+
+.admin { background: var(--surface); border: 1px solid var(--line); border-radius: 6px; padding: 18px; display: grid; gap: 12px; }
+.admin h2 { font-family: var(--font-display); font-weight: 800; font-size: 20px; margin: 0; color: var(--ink); }
+.admin ul { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+.admin li { border: 1px solid var(--line); border-radius: 6px; padding: 10px 12px; display: grid; gap: 6px; }
+.admin li .row { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; font-size: 15px; }
+.pill { border-radius: 999px; font-size: 13px; font-weight: 700; padding: 2px 10px; background: rgba(47,122,85,.16); color: var(--ok); }
+.admin details summary { cursor: pointer; font-size: 14px; color: var(--ink-2); }
+@media (prefers-reduced-motion: no-preference) { button { transition: opacity .15s; } }
+</style>
+
+<header class="hero gutter">
+  <div class="wrap">
+    <div class="eyebrow">더블랙에듀 · 티칭 수업 매뉴얼 v2 준비</div>
+    <h1>티칭 수업 구조 조사</h1>
+    <p class="thesis">선생님이 실제로 운영하는 수업 구조를 그대로 적어 주세요. 평가가 아니라 기록입니다. 매뉴얼과 다르게 하고 있어도 그대로 적어 주시면 됩니다.</p>
+    <p class="meta">작성 15분 · 11/14(토)까지 제출 · 응답은 중등부·고등부 티칭 매뉴얼 v2와 신규 강사(12/22) 온보딩 자료에 반영됩니다 · 표기: ○ 매번 한다 / △ 반·상황에 따라 / × 하지 않는다</p>
+  </div>
+</header>
+
+<main class="gutter">
+  <div class="wrap">
+    <nav class="toc" aria-label="목차">
+      <ol id="toc"></ol>
+      <div class="status" id="side-status">입력 내용은 이 기기에 자동 임시저장됩니다.</div>
+    </nav>
+    <form id="survey" class="sections" novalidate></form>
+  </div>
+</main>
+
+<footer class="submit gutter">
+  <div class="wrap">
+    <h2>제출</h2>
+    <p>작성을 마치면 "응답 텍스트 복사"를 눌러 정리된 글을 복사한 뒤, 슬랙 #2-수업컨텐츠(또는 원장 DM)에 붙여 주세요. 밤 11시 수집에서 취합됩니다. 모바일에서 복사가 안 되면 아래 미리보기 글을 길게 눌러 복사하면 됩니다.</p>
+    <div class="actions">
+      <button type="button" class="primary" id="btn-copy">응답 텍스트 복사</button>
+      <button type="button" class="ghost" id="btn-preview">텍스트 미리보기</button>
+    </div>
+    <div class="toast" id="toast" hidden></div>
+    <pre class="out" id="out" hidden></pre>
+    <p class="small">복사되는 항목: 선생님 이름, 담당 반, 각 문항 응답. 이 페이지는 응답을 서버에 저장하지 않으며, 입력 중인 내용만 이 기기에 남습니다. 학생 개인정보는 적지 않아 주세요. 더블랙에듀 · 2026-11</p>
+  </div>
+</footer>
+
+<script>
+(function () {
+  const DO = ["", "○", "△", "×"];
+  const OP = ["", "유지", "수정", "삭제"];
+  const CLASSES = ["중1 B2", "중2 A1", "중2 B1", "중3 A1", "중3 B1", "중3 B2", "고1 A1", "고1 A2", "세미윈터 A/B"];
+  const TOOLS = ["코칭 기록 시트", "더플래너", "클래스톡톡", "수기 노트", "카톡/워크톡"];
+  const A_ROWS = [
+    "수업 전 준비: 진도 점검·유인물·테스트지 복사", "출결 확인(1분 내) · 지각/결석 처리", "데일리 테스트(범위·문항수·시간)",
+    "데일리 채점·기록(누가, 어디에)", "과제 검사 → 풀이 확인 → 오답노트 → 사인", "개념 강의", "문제 풀이·연습(개별/공통)",
+    "질문 받기·개별 확인(막힌 학생)", "과제 부여·알림장/클래스톡톡 안내", "마무리: 3분 전 종료·하원 인사",
+    "클리닉 대상 선정·안내(70점 기준)", "코칭 미션 입력(다음 코칭에서 확인할 것)", "학부모 연락(결석·지각·특이사항)"
+  ];
+  const B_ROWS = [
+    ["b1", "과제량 기준(문항 수·시간)"], ["b2", "데일리 테스트 출제 범위·문항 수·소요 시간"], ["b3", "채점 주체(본인/조교/학생 상호)"],
+    ["b4", "기준점(70점) 적용 여부와 미달 시 처리"], ["b5", "과제 미이행·반복 미이행 처리"], ["b6", "교재 미지참 처리"],
+    ["b7", "점수·과제 기록 위치"], ["b8", "위클리·월말 테스트 운영 여부(11/30 월말고사 시행 예정)"]
+  ];
+  const C_ROWS = [
+    ["c1", "클리닉 대상 기준"], ["c2", "클리닉 담당(본인/코칭T/조교)·시간대"], ["c3", "클리닉 자료(교재·오답·재테스트)"],
+    ["c4", "결석 보강 방식(개별/합반/점검 클리닉)"], ["c5", "월 8회 초과 보강이 생기는 경우와 빈도"],
+    ["c6", "2027 \"기본 티칭 8회·초과분 비용\" 정책에서 예상되는 어려움"]
+  ];
+  const D_ROWS = [
+    ["d1", "코칭 선생님에게 전달하는 내용(숙제 범위·구두테스트·재테스트·주의 학생 등)"],
+    ["d3", "전달 시점(수업 직후 / 전날 22:00 / 코칭 당일)"], ["d4", "코칭 결과를 확인하는 방법·시점"],
+    ["d5", "토요일 시범 반(구두테스트 3문항): 체크카드 작성 소요 시간, 어려운 점"],
+    ["d6", "완료도 0~100 기준을 한 줄로(예: 과제 전부+오답노트 = 100, 과제만 = 70)"], ["d7", "더플래너에 꼭 있어야 할 기능 1~2개"]
+  ];
+  const D_TOOLS = ["체크카드 탭", "더플래너", "카톡/워크톡", "구두"];
+  const E_ROWS = [
+    "내신 대비 기간(학교별 시험 일정 차이) 운영 변화", "선행 : 현행 비율(평상시)", "주 교재·부교재",
+    "반 이동(A↔B) 판단 기준", "신입생 첫 4주 운영(1:1·합류 시점)", "학기 중 ↔ 방학(세미윈터 등) 구조 차이"
+  ];
+  const F_ROWS = [
+    ["f1", "정기 상담 주기·방법(11/14 정기상담 주간 시작)"], ["f2", "결석·지각 당일 연락 주체·시점(수업 후 30분/40분 기준)"],
+    ["f3", "수업 피드백 전달(클래스톡톡·알림톡·문자) 빈도"], ["f4", "학부모 문의를 받았을 때 보고 경로(#2-수업컨텐츠 【완료】 한 줄) 실제 사용 여부"]
+  ];
+  const G_ROWS = [
+    "수업 정시 시작, 3분 전 마침", "출결 1분 내 확인", "데일리 테스트 10~15분, 당일 기록·포인트 반영",
+    "과제 검사·풀이·오답노트 20분 내, 강사 사인", "70점 미만 클리닉 후 귀가", "교재 미지참 기록, 반복 시 남아서 보충",
+    "쉬는 시간 7분 이내, 수업 중 교실 이탈 금지", "쉬는 시간에 지각·결석생 상담", "과제 알림장 안내, 남는 학생 조교에게 전달",
+    "엘리베이터까지 하원 인사", "결석·무단 지각 당일 학부모 전화", "학부모 전화 수업 후 30분·문자 40분 이내",
+    "다음 날 데일리 테스트 준비", "2회 연속 70점 미만 학생 표시·조교와 확인", "(추가) 코칭 미션 입력·구두테스트 3문항"
+  ];
+  const H_ROWS = [
+    ["h1a", "신규 강사(백지현T, 12/22 출근)에게 첫 주에 꼭 전해야 할 것 ①"], ["h1b", "같은 질문 ②"], ["h1c", "같은 질문 ③"],
+    ["h2", "매뉴얼에 꼭 들어가야 할 것 / 빼야 할 것"], ["h3", "수업 외 업무 중 시간이 가장 많이 드는 것과 줄일 방법"],
+    ["h4", "중등부/고등부 매뉴얼을 나눌 때 가장 크게 달라야 할 한 가지"]
+  ];
+
+  const SECTIONS = [
+    { id: "s0", no: "00", title: "응답자", lead: "담당 반은 해당하는 것을 모두 선택해 주세요." },
+    { id: "sA", no: "A", title: "수업 1회 흐름", lead: "대표 반 1개를 기준으로, 각 단계의 실행 여부·소요 시간·우리 반 방식을 적어 주세요." },
+    { id: "sB", no: "B", title: "과제·테스트 운영", lead: "" },
+    { id: "sC", no: "C", title: "클리닉·보강", lead: "" },
+    { id: "sD", no: "D", title: "코칭 연계·미션 전달", lead: "" },
+    { id: "sE", no: "E", title: "학년별 운영 차이", lead: "중1·2 / 중3 / 고1 중 담당하는 학년만 적어도 됩니다." },
+    { id: "sF", no: "F", title: "학부모 소통", lead: "" },
+    { id: "sG", no: "G", title: "수업 매뉴얼 v1 항목 점검", lead: "10/14 초안의 항목입니다. 현재 실행 여부와 유지·수정·삭제 의견을 남겨 주세요." },
+    { id: "sH", no: "H", title: "자유 의견", lead: "" }
+  ];
+
+  const esc = s => String(s).replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  const sel = (id, opts, cls) => `<select id="${id}" class="${cls || ""}">${opts.map(o => `<option value="${esc(o)}">${esc(o || "—")}</option>`).join("")}</select>`;
+  const ta = (id, ph) => `<textarea id="${id}" placeholder="${esc(ph || "")}"></textarea>`;
+  const fieldRows = rows => `<div class="tw"><table><thead><tr><th>항목</th><th>현재 방식</th></tr></thead><tbody>${rows.map(([id, k]) => `<tr><td class="k">${esc(k)}</td><td>${ta(id)}</td></tr>`).join("")}</tbody></table></div>`;
+
+  const LABELS = {};
+  function L(id, label) { LABELS[id] = label; return id; }
+
+  function build() {
+    const form = document.getElementById("survey");
+    const toc = document.getElementById("toc");
+    const parts = [];
+    SECTIONS.forEach(s => {
+      toc.insertAdjacentHTML("beforeend", `<li><a href="#${s.id}"><span class="no">${esc(s.no)}</span><span>${esc(s.title)}</span></a></li>`);
+      let body = "";
+      if (s.id === "s0") {
+        body = `<div class="grid">
+          <label class="field"><span>선생님 이름</span><input type="text" id="${L("t_name", "선생님")}" autocomplete="name"></label>
+          <label class="field"><span>작성일</span><input type="date" id="${L("t_date", "작성일")}"></label>
+        </div>
+        <div class="field"><span>담당 반</span><div class="checks">${CLASSES.map((c, i) => `<label><input type="checkbox" id="${L("cls_" + i, "담당 반: " + c)}" value="${esc(c)}">${esc(c)}</label>`).join("")}
+          <label><input type="checkbox" id="${L("cls_other", "담당 반: 기타")}" value="기타">기타</label></div>
+          <input type="text" id="${L("cls_other_txt", "기타 반")}" placeholder="기타 반 이름"></div>
+        <div class="field"><span>가장 많이 쓰는 기록 도구</span><div class="checks">${TOOLS.map((t, i) => `<label><input type="checkbox" id="${L("tool_" + i, "기록 도구: " + t)}" value="${esc(t)}">${esc(t)}</label>`).join("")}</div>
+          <input type="text" id="${L("tool_other", "기록 도구 기타")}" placeholder="기타 도구"></div>`;
+      } else if (s.id === "sA") {
+        body = `<div class="grid">
+          <label class="field"><span>대표 반</span><input type="text" id="${L("a_ref_class", "대표 반")}" placeholder="예: 중2 B1"></label>
+          <label class="field"><span>수업 1회 길이(분)</span><input type="number" id="${L("a_ref_min", "수업 길이(분)")}" min="30" max="300" step="5"></label>
+        </div>
+        <div class="tw"><table><thead><tr><th>단계</th><th>실행</th><th>소요(분)</th><th>우리 반 방식·도구 (짧게)</th></tr></thead><tbody>
+        ${A_ROWS.map((r, i) => { const n = i + 1; L("a" + n + "_do", r + " · 실행"); L("a" + n + "_min", r + " · 소요(분)"); L("a" + n + "_how", r + " · 방식");
+          return `<tr><td class="k">${esc(r)}</td><td>${sel("a" + n + "_do", DO, "do")}</td><td><input type="number" class="min" id="a${n}_min" min="0" max="180"></td><td>${ta("a" + n + "_how")}</td></tr>`; }).join("")}
+        </tbody></table></div>
+        <p class="sub">A-1. 위 흐름이 학년에 따라 달라지는 점</p>
+        <div class="grid">
+          <label class="field"><span>중1·2</span>${ta(L("a_diff_m12", "A-1 중1·2 차이"))}</label>
+          <label class="field"><span>중3</span>${ta(L("a_diff_m3", "A-1 중3 차이"))}</label>
+          <label class="field"><span>고1</span>${ta(L("a_diff_h1", "A-1 고1 차이"))}</label>
+        </div>
+        <label class="field"><span>A-2. 1회 수업에서 가장 시간이 부족한 단계와 그 이유</span>${ta(L("a_short", "A-2 시간 부족 단계"))}</label>`;
+      } else if (s.id === "sB") {
+        B_ROWS.forEach(([id, k]) => L(id, k)); body = fieldRows(B_ROWS);
+      } else if (s.id === "sC") {
+        C_ROWS.forEach(([id, k]) => L(id, k)); body = fieldRows(C_ROWS);
+      } else if (s.id === "sD") {
+        D_ROWS.forEach(([id, k]) => L(id, k));
+        body = `<div class="tw"><table><thead><tr><th>항목</th><th>현재 방식</th></tr></thead><tbody>
+          <tr><td class="k">${esc(D_ROWS[0][1])}</td><td>${ta("d1")}</td></tr>
+          <tr><td class="k">전달 방법</td><td><div class="checks">${D_TOOLS.map((t, i) => `<label><input type="checkbox" id="${L("d2_" + i, "전달 방법: " + t)}" value="${esc(t)}">${esc(t)}</label>`).join("")}</div><input type="text" id="${L("d2_other", "전달 방법 기타")}" placeholder="기타"></td></tr>
+          ${D_ROWS.slice(1).map(([id, k]) => `<tr><td class="k">${esc(k)}</td><td>${ta(id)}</td></tr>`).join("")}
+        </tbody></table></div>`;
+      } else if (s.id === "sE") {
+        body = `<div class="tw"><table><thead><tr><th>항목</th><th>중1·2</th><th>중3</th><th>고1</th></tr></thead><tbody>
+        ${E_ROWS.map((r, i) => { const n = i + 1; L("e" + n + "_m12", r + " · 중1·2"); L("e" + n + "_m3", r + " · 중3"); L("e" + n + "_h1", r + " · 고1");
+          return `<tr><td class="k">${esc(r)}</td><td>${ta("e" + n + "_m12")}</td><td>${ta("e" + n + "_m3")}</td><td>${ta("e" + n + "_h1")}</td></tr>`; }).join("")}
+        </tbody></table></div>`;
+      } else if (s.id === "sF") {
+        F_ROWS.forEach(([id, k]) => L(id, k)); body = fieldRows(F_ROWS);
+      } else if (s.id === "sG") {
+        body = `<div class="tw"><table><thead><tr><th>v1 항목</th><th>현재 실행</th><th>의견</th><th>수정 시 우리 방식</th></tr></thead><tbody>
+        ${G_ROWS.map((r, i) => { const n = i + 1; L("g" + n + "_do", r + " · 현재 실행"); L("g" + n + "_op", r + " · 의견"); L("g" + n + "_how", r + " · 우리 방식");
+          return `<tr><td class="k">${esc(r)}</td><td>${sel("g" + n + "_do", DO, "do")}</td><td>${sel("g" + n + "_op", OP, "do")}</td><td>${ta("g" + n + "_how")}</td></tr>`; }).join("")}
+        </tbody></table></div>`;
+      } else if (s.id === "sH") {
+        H_ROWS.forEach(([id, k]) => L(id, k));
+        body = `<p class="quote">수업은 실력이 아니라 시스템이 한다. 매뉴얼대로 하고, 안 맞으면 매뉴얼을 고친다.</p>` + fieldRows(H_ROWS);
+      }
+      parts.push(`<section class="card" id="${s.id}"><h2><span class="no">${esc(s.no)}</span>${esc(s.title)}</h2>${s.lead ? `<p class="lead">${esc(s.lead)}</p>` : ""}${body}</section>`);
+    });
+    form.innerHTML = parts.join("");
+    const d = document.getElementById("t_date");
+    if (d && !d.value) { const t = new Date(); d.value = t.getFullYear() + "-" + String(t.getMonth() + 1).padStart(2, "0") + "-" + String(t.getDate()).padStart(2, "0"); }
+  }
+
+  // ── 값 수집 / 복원 ──
+  function collect() {
+    const out = {};
+    document.querySelectorAll("#survey input, #survey select, #survey textarea").forEach(el => {
+      if (!el.id) return;
+      out[el.id] = el.type === "checkbox" ? el.checked : el.value;
+    });
+    return out;
+  }
+  function restore(vals) {
+    Object.entries(vals || {}).forEach(([id, v]) => {
+      const el = document.getElementById(id); if (!el) return;
+      if (el.type === "checkbox") el.checked = !!v; else el.value = v == null ? "" : v;
+    });
+  }
+  const DRAFT_KEY = "teaching-survey-draft-2026-11";
+  function saveDraft() { try { localStorage.setItem(DRAFT_KEY, JSON.stringify(collect())); } catch (e) {} }
+  function loadDraft() { try { const s = localStorage.getItem(DRAFT_KEY); return s ? JSON.parse(s) : null; } catch (e) { return null; } }
+
+  // ── 텍스트 요약 ──
+  function summary(vals) {
+    const v = vals || collect();
+    const lines = [];
+    const classes = CLASSES.filter((c, i) => v["cls_" + i]).concat(v.cls_other ? [v.cls_other_txt || "기타"] : []);
+    const tools = TOOLS.filter((t, i) => v["tool_" + i]).concat(v.tool_other ? [v.tool_other] : []);
+    lines.push("[수업] 티칭 수업 구조 조사 응답");
+    lines.push("선생님: " + (v.t_name || "(미기재)") + " · 작성일: " + (v.t_date || ""));
+    lines.push("담당 반: " + (classes.join(", ") || "(미선택)"));
+    lines.push("기록 도구: " + (tools.join(", ") || "(미선택)"));
+    lines.push("");
+    lines.push("A. 수업 1회 흐름 — 대표 반 " + (v.a_ref_class || "?") + ", " + (v.a_ref_min || "?") + "분");
+    A_ROWS.forEach((r, i) => { const n = i + 1; const d = v["a" + n + "_do"], m = v["a" + n + "_min"], h = v["a" + n + "_how"];
+      if (d || m || h) lines.push(`- ${r}: ${d || "-"} / ${m ? m + "분" : "-"} / ${h || "-"}`); });
+    [["a_diff_m12", "A-1 중1·2"], ["a_diff_m3", "A-1 중3"], ["a_diff_h1", "A-1 고1"], ["a_short", "A-2 시간 부족 단계"]].forEach(([id, k]) => { if (v[id]) lines.push(`- ${k}: ${v[id]}`); });
+    const block = (title, rows) => { const b = rows.filter(([id]) => v[id]); if (!b.length) return; lines.push(""); lines.push(title); b.forEach(([id, k]) => lines.push(`- ${k}: ${v[id]}`)); };
+    block("B. 과제·테스트", B_ROWS);
+    block("C. 클리닉·보강", C_ROWS);
+    const dTools = D_TOOLS.filter((t, i) => v["d2_" + i]).concat(v.d2_other ? [v.d2_other] : []);
+    block("D. 코칭 연계·미션", [D_ROWS[0]].concat(dTools.length ? [["__d2", "전달 방법"]] : []).concat(D_ROWS.slice(1)).map(([id, k]) => id === "__d2" ? ["__d2", k] : [id, k]));
+    if (dTools.length) { const idx = lines.lastIndexOf("D. 코칭 연계·미션"); if (idx >= 0) lines.splice(idx + 1 + (v.d1 ? 1 : 0), 0, "- 전달 방법: " + dTools.join(", ")); }
+    const eLines = [];
+    E_ROWS.forEach((r, i) => { const n = i + 1; const a = v["e" + n + "_m12"], b = v["e" + n + "_m3"], c = v["e" + n + "_h1"];
+      if (a || b || c) eLines.push(`- ${r}: 중1·2 ${a || "-"} / 중3 ${b || "-"} / 고1 ${c || "-"}`); });
+    if (eLines.length) { lines.push(""); lines.push("E. 학년별 운영 차이"); lines.push(...eLines); }
+    block("F. 학부모 소통", F_ROWS);
+    const gLines = [];
+    G_ROWS.forEach((r, i) => { const n = i + 1; const d = v["g" + n + "_do"], o = v["g" + n + "_op"], h = v["g" + n + "_how"];
+      if (d || o || h) gLines.push(`- ${r}: ${d || "-"} / ${o || "-"}${h ? " / " + h : ""}`); });
+    if (gLines.length) { lines.push(""); lines.push("G. 매뉴얼 v1 점검(실행 / 의견 / 우리 방식)"); lines.push(...gLines); }
+    block("H. 자유 의견", H_ROWS);
+    return lines.filter((l, i, a) => !(l === "- 전달 방법: " && true)).join("\n");
+  }
+
+  // ── UI 상태 ──
+  const toast = document.getElementById("toast"), out = document.getElementById("out");
+  function say(msg, kind) { toast.textContent = msg; toast.className = "toast" + (kind ? " " + kind : ""); toast.hidden = false; }
+  function slug(s) { return (s || "anon").replace(/[^A-Za-z0-9가-힣_\-]/g, "").slice(0, 40) || "anon"; }
+
+  build();
+  const draft = loadDraft(); if (draft) restore(draft);
+  let timer = null;
+  document.getElementById("survey").addEventListener("input", () => { clearTimeout(timer); timer = setTimeout(saveDraft, 400); });
+  document.getElementById("survey").addEventListener("change", saveDraft);
+
+  document.getElementById("btn-preview").addEventListener("click", () => { out.textContent = summary(); out.hidden = !out.hidden; });
+  document.getElementById("btn-copy").addEventListener("click", async () => {
+    const text = summary(); out.textContent = text; out.hidden = false;
+    try { await navigator.clipboard.writeText(text); say("응답 텍스트를 복사했습니다. 슬랙 #2-수업컨텐츠에 붙여 주세요.", "ok"); }
+    catch (e) { const r = document.createRange(); r.selectNodeContents(out); const s = getSelection(); s.removeAllRanges(); s.addRange(r); say("자동 복사가 막혀 있어 아래 글을 선택했습니다. Ctrl+C로 복사해 주세요.", "warn"); }
+  });
+
+  document.getElementById("side-status").textContent = "입력 내용은 이 기기에 자동 임시저장됩니다. 제출은 '응답 텍스트 복사' → 슬랙 #2-수업컨텐츠.";
+})();
+</script>
+
+</body></html>
