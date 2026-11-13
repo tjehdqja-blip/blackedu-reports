@@ -67,6 +67,8 @@ th{color:var(--ink-3);font-weight:600;font-size:12px;letter-spacing:.06em}
 .seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 18px}
 .seg label{border:1.5px solid var(--line);padding:14px;cursor:pointer;background:var(--bg)}
 .seg label:has(input:checked){border-color:var(--pen);background:var(--pen-soft)}
+.seg label:has(input:disabled){opacity:.5;cursor:default}
+.note a{color:var(--pen);font-weight:600}
 .seg input{margin-right:6px}
 .seg .t{font-weight:600}
 .seg .s{display:block;font-size:12px;color:var(--ink-2);margin-top:2px}
@@ -174,7 +176,10 @@ footer{font-size:12px;color:var(--ink-3);margin-top:20px}
     <h2>집필진 신청서</h2>
     <p class="hint">1기 기존 집필진과 2기 신규 지원자 공통 양식입니다. 구분을 먼저 선택하면 해당 항목만 표시됩니다.</p>
 
+    <div class="note" id="closedNote" hidden></div>
+
     <form id="f" data-track="2" novalidate>
+      <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
       <div class="seg">
         <label><input type="radio" name="track" value="1" id="track1"><span class="t">1기 기존 집필진</span><span class="s">계속 참여 여부 · 특별판 수령 정보 확인</span></label>
         <label><input type="radio" name="track" value="2" id="track2" checked><span class="t">2기 신규 지원</span><span class="s">처음 지원하시는 분</span></label>
@@ -259,25 +264,51 @@ footer{font-size:12px;color:var(--ink-3);margin-top:20px}
 
 <script>
 (function(){
+  /* ─────────────────────────────────────────────────────────────
+     설정 — 기수마다 여기만 다릅니다.
+     · cohort   : 시트 '모집 기수' 열에 적히는 값
+     · newTrack : 신규 지원자 구분 이름
+     · newOpen  : false로 바꾸면 신규 지원을 닫고 nextUrl로 안내합니다
+                  (1기 기존 집필진 응답은 계속 받습니다)
+     · endpoint : 구글 Apps Script 웹 앱 주소. 비어 있으면 '이메일로 보내기' 방식
+     ───────────────────────────────────────────────────────────── */
+  const CONFIG={
+    cohort:'2기 모집',
+    newTrack:'2기 신규',
+    newOpen:true,
+    nextUrl:'../mathclan3/',
+    nextLabel:'매쓰클랜 3기 모집 안내',
+    endpoint:'https://script.google.com/macros/s/AKfycbxmqfkS7l1B3EgHvzpSpeZAFdvJhjw_awRTrvCBBLgqLuOgP83RYnZMGAgbRn5GgYUmzQ/exec',
+    contact:'tjehdqja@gmail.com'
+  };
+
   const f=document.getElementById('f');
   const $=id=>document.getElementById(id);
   let db=null,user=null;
-  const CONTACT='tjehdqja@gmail.com';
+  const CONTACT=CONFIG.contact;
 
   // 구분 토글
   f.addEventListener('change',e=>{ if(e.target.name==='track') f.dataset.track=e.target.value; });
 
+  // 신규 지원 마감 처리
+  if(!CONFIG.newOpen){
+    $('track2').disabled=true; $('track1').checked=true; f.dataset.track='1';
+    const n=$('closedNote'); n.textContent=CONFIG.newTrack.replace(' 신규','')+' 신규 모집은 마감되었습니다. 1기 기존 집필진 응답은 계속 받습니다. ';
+    if(CONFIG.nextUrl){ const a=document.createElement('a'); a.href=CONFIG.nextUrl; a.textContent=(CONFIG.nextLabel||'다음 모집 안내')+' 보기'; n.appendChild(a); }
+    n.hidden=false;
+  }
+
   // 저장 가능 여부 확인
   (async()=>{
     try{ if(window.claude&&claude.use){ db=await claude.use('db'); user=await claude.use('user'); } }catch(e){}
-    $('mode').textContent = db ? '제출 시 운영진에게 바로 접수됩니다.' : '제출하면 신청 내용이 정리되어 이메일로 바로 보낼 수 있습니다.';
+    $('mode').textContent = (db||CONFIG.endpoint) ? '제출 시 운영진에게 바로 접수됩니다.' : '제출하면 신청 내용이 정리되어 이메일로 바로 보낼 수 있습니다.';
     if(db && user && await user.isOwner()) loadAdmin();
   })();
 
   function vals(id){ return [...document.querySelectorAll('#'+id+' input:checked')].map(i=>i.value); }
   function collect(){
     const t=f.dataset.track;
-    const d={ track:t==='1'?'1기 기존':'2기 신규', name:$('name').value.trim(), academy:$('academy').value.trim(),
+    const d={ cohort:CONFIG.cohort, track:t==='1'?'1기 기존':CONFIG.newTrack, name:$('name').value.trim(), academy:$('academy').value.trim(),
       region:$('region').value.trim(), role:$('role').value.trim(), phone:$('phone').value.trim(), email:$('email').value.trim(),
       acts:vals('acts'), units:$('units').value.trim(), tools:$('tools').value, memo:$('memo').value.trim(), submittedAt:new Date().toISOString() };
     if(t==='1'){ d.cont=(f.querySelector('input[name=cont]:checked')||{}).value||''; d.prev=vals('prev'); d.prevnote=$('prevnote').value.trim(); }
@@ -290,23 +321,30 @@ footer{font-size:12px;color:var(--ink-3);margin-top:20px}
     if(!d.phone) miss.push('연락처'); if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.email)) miss.push('이메일');
     if(!d.acts.length) miss.push('참여 희망 활동');
     if(d.track==='1기 기존' && !d.cont) miss.push('참여 의사');
-    if(d.track==='2기 신규' && !d.career) miss.push('지도 경력');
+    if(d.track!=='1기 기존' && !d.career) miss.push('지도 경력');
     if(!$('agree').checked) miss.push('개인정보 동의');
     return miss;
   }
   function asText(d){
-    const L=[`[매쓰클랜 집필진 신청] ${d.track}`,`성명: ${d.name}`,`학원명: ${d.academy}`,`지역: ${d.region}`,`직책: ${d.role||'-'}`,`연락처: ${d.phone}`,`이메일: ${d.email}`];
+    const L=[`[매쓰클랜 집필진 신청] ${d.cohort} · ${d.track}`,`성명: ${d.name}`,`학원명: ${d.academy}`,`지역: ${d.region}`,`직책: ${d.role||'-'}`,`연락처: ${d.phone}`,`이메일: ${d.email}`];
     if(d.cont!==undefined){ L.push(`참여 의사: ${d.cont}`,`1기 참여 교재: ${d.prev.join(', ')||'-'}`,`특별판 변경사항: ${d.prevnote||'-'}`); }
     else { L.push(`지도 경력: ${d.career}`,`알게 된 경로: ${d.source||'-'}`); }
     L.push(`희망 활동: ${d.acts.join(', ')}`,`자신 있는 단원: ${d.units||'-'}`,`작성 환경: ${d.tools||'-'}`,`기타: ${d.memo||'-'}`,`제출일: ${d.submittedAt.slice(0,10)}`);
     return L.join('\n');
   }
+  // 시트 열 이름과 짝지은 값(Apps Script가 이 이름으로 열을 찾습니다)
+  function pairs(d){
+    return [['구분',d.track],['성명',d.name],['학원명',d.academy],['지역',d.region],['직책',d.role],['연락처',d.phone],['이메일',d.email],
+      ['참여 의사',d.cont||''],['1기 참여 교재',(d.prev||[]).join(', ')],['특별판 변경사항',d.prevnote||''],
+      ['지도 경력',d.career||''],['알게 된 경로',d.source||''],['희망 활동',d.acts.join(', ')],
+      ['자신 있는 단원',d.units],['작성 환경',d.tools],['기타 의견',d.memo]];
+  }
 
   f.addEventListener('submit',async e=>{
     e.preventDefault();
-    const d=collect(), miss=validate(d), err=$('err');
+    const d=collect(), miss=validate(d), err=$('err'), btn=$('submit');
     if(miss.length){ err.textContent='다음 항목을 확인해 주세요: '+miss.join(', '); err.hidden=false; return; }
-    err.hidden=true; $('submit').disabled=true;
+    err.hidden=true; btn.disabled=true; btn.textContent='제출 중…';
     let saved=false;
     if(db){
       try{
@@ -315,6 +353,14 @@ footer{font-size:12px;color:var(--ink-3);margin-top:20px}
         await ref.set(d); saved=true;
       }catch(ex){ saved=false; }
     }
+    if(!saved && CONFIG.endpoint){
+      try{
+        const r=await fetch(CONFIG.endpoint,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
+          body:JSON.stringify({website:$('website').value,cohort:d.cohort,fields:pairs(d)})});
+        const res=await r.json(); saved=!!(res&&res.ok);
+      }catch(ex){ saved=false; }
+    }
+    btn.textContent='신청서 제출';
     $('done').hidden=false; f.hidden=true;
     if(saved){
       $('doneTitle').textContent='신청서가 접수되었습니다';
@@ -322,7 +368,7 @@ footer{font-size:12px;color:var(--ink-3);margin-top:20px}
     } else {
       $('doneTitle').textContent='신청 내용이 정리되었습니다';
       $('doneText').textContent='아래 「이메일로 보내기」를 누르면 신청 내용이 담긴 메일이 열립니다. 메일 앱이 열리지 않으면 내용을 복사해 운영진 카카오톡이나 이메일로 보내 주세요.';
-      $('mailBtn').href='mailto:'+CONTACT+'?subject='+encodeURIComponent('[매쓰클랜 신청] '+d.track+' '+d.name+' ('+d.academy+')')+'&body='+encodeURIComponent(asText(d)); $('mailBtn').hidden=false;
+      $('mailBtn').href='mailto:'+CONTACT+'?subject='+encodeURIComponent('[매쓰클랜 신청] '+d.cohort+' '+d.track+' '+d.name+' ('+d.academy+')')+'&body='+encodeURIComponent(asText(d)); $('mailBtn').hidden=false;
       $('copyText').textContent=asText(d); $('copyText').hidden=false; $('copyBtn').hidden=false;
     }
     $('done').scrollIntoView({behavior:'smooth',block:'start'});

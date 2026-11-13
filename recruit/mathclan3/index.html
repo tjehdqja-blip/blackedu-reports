@@ -1,0 +1,403 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="수고zero 집필진 매쓰클랜 3기 모집 및 공통수학1·공통수학2 재출간 안내">
+<title>매쓰클랜 3기 모집</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: 수학 교재의 모눈 종이. 좌측 정렬 단일 컬럼, 빨간 채점펜 하나만 강조색. */
+:root{
+  --bg:#f7f8fb; --paper:#ffffff; --grid:rgba(31,52,96,.07);
+  --ink:#1b2a4a; --ink-2:#4a5878; --ink-3:#8a94ad;
+  --line:#d8dde8; --pen:#c8352e; --pen-soft:#fbeeed;
+  --navy:#1f3460; --navy-fg:#ffffff;
+  --ok:#2a7a4b; --ok-soft:#e8f4ec;
+  --display:"Gowun Batang","Noto Serif KR",serif;
+  --body:"IBM Plex Sans KR","Noto Sans KR",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+  --bg:#121824; --paper:#1a2231; --grid:rgba(180,196,230,.06);
+  --ink:#e8ecf5; --ink-2:#b4bdd1; --ink-3:#7d879f;
+  --line:#2c3649; --pen:#ef6b63; --pen-soft:#3a2426;
+  --navy:#2c4a86; --navy-fg:#ffffff; --ok:#6fcf97; --ok-soft:#1f3328; color-scheme:dark } }
+:root[data-theme="dark"]{
+  --bg:#121824; --paper:#1a2231; --grid:rgba(180,196,230,.06);
+  --ink:#e8ecf5; --ink-2:#b4bdd1; --ink-3:#7d879f;
+  --line:#2c3649; --pen:#ef6b63; --pen-soft:#3a2426;
+  --navy:#2c4a86; --navy-fg:#ffffff; --ok:#6fcf97; --ok-soft:#1f3328; color-scheme:dark }
+
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--body);line-height:1.65;
+  background-image:linear-gradient(var(--grid) 1px,transparent 1px),linear-gradient(90deg,var(--grid) 1px,transparent 1px);
+  background-size:24px 24px}
+.wrap{max-width:760px;margin:0 auto;padding-block:32px 72px;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;line-height:1.3}
+h1{font-size:clamp(28px,6vw,40px);font-weight:700;word-break:keep-all}
+h2{font-size:22px;margin-bottom:14px;padding-bottom:8px;border-bottom:2px solid var(--ink)}
+h3{font-size:17px;font-family:var(--body);font-weight:600;margin:18px 0 6px}
+p{margin:0 0 10px}
+.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--pen);font-weight:600;margin-bottom:10px}
+.hero{background:var(--paper);border:1px solid var(--line);padding:28px 24px;margin-bottom:22px;position:relative}
+.hero::after{content:"";position:absolute;left:0;top:0;bottom:0;width:6px;background:var(--pen)}
+.hero .lead{color:var(--ink-2);font-size:15px;margin-top:12px}
+.meta{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:16px;font-size:13px;color:var(--ink-2)}
+.meta b{color:var(--ink)}
+section{background:var(--paper);border:1px solid var(--line);padding:22px 20px;margin-bottom:18px}
+ul{margin:0 0 8px;padding-left:20px}
+li{margin-bottom:4px}
+.note{background:var(--pen-soft);border-left:3px solid var(--pen);padding:10px 14px;font-size:14px;margin:12px 0}
+.books{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin:12px 0}
+.book{border:1px solid var(--line);padding:14px;background:var(--bg)}
+.book .k{font-size:12px;color:var(--ink-3);letter-spacing:.06em;text-transform:uppercase}
+.book .n{font-size:28px;font-family:var(--display);font-weight:700;font-variant-numeric:tabular-nums}
+.book .n small{font-size:14px;font-family:var(--body);font-weight:500;margin-left:2px}
+.book .d{font-size:13px;color:var(--ink-2);margin-top:4px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top}
+th{color:var(--ink-3);font-weight:600;font-size:12px;letter-spacing:.06em}
+.tw{overflow-x:auto}
+.tag{display:inline-block;font-size:12px;padding:2px 8px;border:1px solid var(--line);border-radius:3px;color:var(--ink-2);margin-right:4px}
+.tag.pen{color:var(--pen);border-color:var(--pen)}
+
+/* form */
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:10px 0 18px}
+.seg label{border:1.5px solid var(--line);padding:14px;cursor:pointer;background:var(--bg)}
+.seg label:has(input:checked){border-color:var(--pen);background:var(--pen-soft)}
+.seg label:has(input:disabled){opacity:.5;cursor:default}
+.note a{color:var(--pen);font-weight:600}
+.seg input{margin-right:6px}
+.seg .t{font-weight:600}
+.seg .s{display:block;font-size:12px;color:var(--ink-2);margin-top:2px}
+.field{margin-bottom:16px}
+.field>label,.field>.lbl{display:block;font-weight:600;font-size:14px;margin-bottom:6px}
+.req::after{content:" *";color:var(--pen)}
+.hint{font-size:12px;color:var(--ink-3);margin-top:4px}
+input[type=text],input[type=tel],input[type=email],select,textarea{
+  width:100%;font:inherit;font-size:15px;padding:10px 12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:3px}
+textarea{min-height:90px;resize:vertical}
+input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--pen);outline-offset:1px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:520px){.row{grid-template-columns:1fr}}
+.checks{display:grid;gap:8px}
+.checks label{display:flex;gap:10px;align-items:flex-start;padding:10px 12px;border:1px solid var(--line);background:var(--bg);cursor:pointer;font-size:14px}
+.checks label:has(input:checked){border-color:var(--ink)}
+.checks input{margin-top:3px}
+.only1,.only2{display:none}
+form[data-track="1"] .only1{display:block}
+form[data-track="2"] .only2{display:block}
+.btn{font:inherit;font-weight:600;font-size:15px;padding:12px 20px;border:none;background:var(--navy);color:var(--navy-fg);cursor:pointer;border-radius:3px}
+.btn.pen{background:var(--pen)}
+.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn:disabled{opacity:.5;cursor:default}
+.actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.msg{font-size:14px;margin-top:10px}
+.msg.err{color:var(--pen)}
+.done{background:var(--ok-soft);border:1px solid var(--ok);padding:16px;margin-top:12px}
+.done h3{margin-top:0;color:var(--ok)}
+pre.copy{white-space:pre-wrap;word-break:break-all;font-family:var(--mono);font-size:12.5px;background:var(--bg);border:1px solid var(--line);padding:12px;max-height:260px;overflow:auto;margin:10px 0}
+.admin{border-color:var(--pen)}
+.admin .cnt{font-family:var(--display);font-size:30px;font-weight:700}
+footer{font-size:12px;color:var(--ink-3);margin-top:20px}
+@media (prefers-reduced-motion:no-preference){.seg label,.checks label{transition:border-color .15s,background .15s}}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+  <div class="hero">
+    <div class="eyebrow">수고zero 집필진 모집요강</div>
+    <h1>매쓰클랜 3기 모집<br>&amp; 공통수학1 · 공통수학2 재출간 안내</h1>
+    <p class="lead">수고zero(수학고통제로) 시리즈의 <b>공통수학1</b>, <b>공통수학2</b> 재출간 프로젝트(2027년 초)를 앞두고 매쓰클랜 3기 집필진을 모집합니다. 기존 1기 집필진의 계속 참여 여부도 지금처럼 함께 확인합니다. 아래 안내를 읽으신 후 하단 신청서를 제출해 주세요.</p>
+    <div class="meta">
+      <span>대상 <b>3기 신규 지원자 · 1기 기존 집필진</b></span>
+      <span>제한 <b>학원당 1명</b></span>
+      <span>재출간 <b>공통수학1 · 공통수학2 (2027년 초)</b></span>
+      <span>신규 집필 <b>미적분Ⅱ (2027년 하반기~) → 기하</b></span>
+    </div>
+  </div>
+
+  <section>
+    <h2>모집 및 출간 계획</h2>
+    <p>현재 진행 중인 <b>미적분Ⅰ</b>과 <b>확률과 통계</b>의 출간 작업이 마무리되는 즉시 <b>공통수학1</b>, <b>공통수학2</b> 재출간 작업에 착수합니다. 매쓰클랜 3기는 이 재출간 프로젝트부터 함께하며, 집필·검토에 참여하신 분은 해당 도서 명단에 등재됩니다. 집필진 혜택은 2기와 동일합니다.</p>
+    <div class="tw"><table>
+      <tr><th>구분</th><th>도서</th><th>계획</th></tr>
+      <tr><td>재출간</td><td>공통수학1, 공통수학2</td><td><span class="tag pen">3기 참여</span> 2027년 초 재출간 프로젝트</td></tr>
+      <tr><td>출간 마무리</td><td>미적분Ⅰ, 확률과 통계</td><td>출간 작업 진행 중 · 마무리되는 즉시 공통수학1·2 재출간 착수</td></tr>
+      <tr><td>신규</td><td>미적분Ⅱ</td><td>2027년 하반기 원고 작성 시작 (공통수학1·2 재출간을 마무리한 뒤)</td></tr>
+      <tr><td>신규</td><td>기하</td><td>미적분Ⅱ 완료 후 원고 작성</td></tr>
+    </table></div>
+    <div class="note">1기 집필진께서는 지금처럼 <b>계속 참여 / 휴식 / 종료</b> 여부를 신청서에서 알려 주세요. 명단 등재와 특별판 수령 정보 확인을 위해 제출이 필요합니다. 이미 제출하신 분은 다시 제출하지 않으셔도 됩니다.</div>
+  </section>
+
+  <section>
+    <h2>모집 대상</h2>
+    <ul>
+      <li>고등수학(공통수학1·2, 미적분Ⅱ, 기하 포함) 분야에 깊은 이해와 자신이 있으신 분</li>
+      <li>학생들이 쉽게 이해하고 흥미를 느낄 수 있도록 글과 자료를 구성할 수 있는 분</li>
+      <li>문제 풀이, 개념 설명, 학습 팁 등 다양한 방식으로 지식을 전달하고자 하는 분</li>
+      <li>팀과 소통하며 협업 프로젝트에도 적극적으로 참여하실 수 있는 분</li>
+    </ul>
+    <p class="hint">브랜드 및 지역 균형성을 위해 학원당 1명만 지원 가능합니다.</p>
+  </section>
+
+  <section>
+    <h2>집필진 혜택</h2>
+    <div class="books">
+      <div class="book"><div class="k">일반 판매용 도서</div><div class="n">3<small>권</small></div><div class="d">공통수학1 · 공통수학2 · 대수 — 살펴본 뒤 참여 여부를 결정해도 무방</div></div>
+      <div class="book"><div class="k">학원 맞춤 특별판</div><div class="n">35<small>권</small></div><div class="d">기존 5종 × 5권(25) + 신규 2종 × 5권(10) · 각 1회 · 채택 의무 없음</div></div>
+      <div class="book"><div class="k">명단 등재</div><div class="n">7<small>종</small></div><div class="d">증쇄본 5종 + 신규 2종 집필·검토 명단 · 블로그·홍보·이력서 활용 가능</div></div>
+    </div>
+    <h3>특별판 도서란</h3>
+    <p>일반 판매용과 내용은 동일하며, 표지 전면에 「학원명」, 표지 뒷면(또는 내지 삽지)에 「학원 로고」가 인쇄되는 집필진 전용 홍보용 도서입니다. 학원 교재 채택 여부와 관계없이 집필 참여만으로 증정됩니다.</p>
+    <h3>그 외 혜택</h3>
+    <ul>
+      <li>교재 문제 및 정답/풀이 PDF 제공 — 교사용(정답 포함), 학생용(정답 미포함), 정답·풀이</li>
+      <li>[추진 중] 수업용 강의 PPT 제공 — 출판사와 협의 중, 최종 제공 여부는 추후 확정</li>
+      <li>신규 출간 프로젝트 우선 참여권</li>
+      <li>교육 세미나·워크숍 참여, 학원 코칭 및 강의 지원</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>활동 내용</h2>
+    <div class="tw"><table>
+      <tr><th>활동</th><th>대상 · 시기</th><th>분량 · 방식</th></tr>
+      <tr><td><b>공통수학1·2 재출간</b></td><td>2027년 초 · 미적분Ⅰ·확률과 통계 출간 마무리 즉시 착수</td><td>재출간 전 교재의 약 1/10 분량을 전달받아 수정·보완, 오류·오타 점검, 문제·해설 점검, 개선 아이디어 공유</td></tr>
+      <tr><td><b>기존 교재 개선</b></td><td>대수, 미적분Ⅰ, 확률과 통계</td><td>재판 전 같은 방식으로 수정·보완 및 점검</td></tr>
+      <tr><td><b>미적분Ⅱ 원고</b></td><td>2027년 하반기 시작 예정</td><td>소단원 1개 또는 연습문제 1단원 (한글 파일, 약 6~8쪽)</td></tr>
+      <tr><td><b>기하 원고</b></td><td>미적분Ⅱ 완료 후</td><td>소단원 1개 또는 연습문제 1단원 (한글 파일, 약 6~8쪽)</td></tr>
+    </table></div>
+    <h3>시각 자료 작성 안내</h3>
+    <p>도형·그래프 등 그림은 의미가 명확히 전달되도록 작성해 주세요. 일러스트 프로그램이 어려우면 손그림을 촬영·스캔해 첨부해도 됩니다. 도안은 이후 작업 과정에서 재작업합니다.</p>
+  </section>
+
+  <section id="apply">
+    <h2>집필진 신청서</h2>
+    <p class="hint">1기 기존 집필진과 3기 신규 지원자 공통 양식입니다. 구분을 먼저 선택하면 해당 항목만 표시됩니다.</p>
+
+    <div class="note" id="closedNote" hidden></div>
+
+    <form id="f" data-track="2" novalidate>
+      <input type="text" id="website" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px">
+      <div class="seg">
+        <label><input type="radio" name="track" value="1" id="track1"><span class="t">1기 기존 집필진</span><span class="s">계속 참여 여부 · 특별판 수령 정보 확인</span></label>
+        <label><input type="radio" name="track" value="2" id="track2" checked><span class="t">3기 신규 지원</span><span class="s">처음 지원하시는 분</span></label>
+      </div>
+
+      <div class="row">
+        <div class="field"><label class="req" for="name">성명</label><input type="text" id="name" autocomplete="name"></div>
+        <div class="field"><label class="req" for="academy">학원명</label><input type="text" id="academy" placeholder="특별판 표지에 인쇄될 이름"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label class="req" for="region">지역 (시·구)</label><input type="text" id="region" placeholder="예: 서울 강동구"></div>
+        <div class="field"><label for="role">직책</label><input type="text" id="role" placeholder="예: 원장 / 수학 강사"></div>
+      </div>
+      <div class="row">
+        <div class="field"><label class="req" for="phone">연락처</label><input type="tel" id="phone" autocomplete="tel" placeholder="010-0000-0000"></div>
+        <div class="field"><label class="req" for="email">이메일</label><input type="email" id="email" autocomplete="email" placeholder="PDF·원고 전달용"></div>
+      </div>
+
+      <div class="only1">
+        <div class="field"><div class="lbl req">앞으로의 참여 의사</div>
+          <div class="checks">
+            <label><input type="radio" name="cont" value="계속 참여">계속 참여 — 공통수학1·2 재출간과 미적분Ⅱ·기하 원고까지 함께합니다</label>
+            <label><input type="radio" name="cont" value="교재 개선만 참여">교재 개선(검토)만 참여 — 신규 원고 작성은 제외</label>
+            <label><input type="radio" name="cont" value="휴식">잠시 휴식 — 명단 등재·특별판은 유지</label>
+            <label><input type="radio" name="cont" value="종료">종료</label>
+          </div></div>
+        <div class="field"><div class="lbl">1기에서 참여한 교재</div>
+          <div class="checks" id="prev">
+            <label><input type="checkbox" value="공통수학1">공통수학1</label>
+            <label><input type="checkbox" value="공통수학2">공통수학2</label>
+            <label><input type="checkbox" value="대수">대수</label>
+            <label><input type="checkbox" value="미적분Ⅰ">미적분Ⅰ</label>
+            <label><input type="checkbox" value="확률과 통계">확률과 통계</label>
+          </div></div>
+        <div class="field"><label for="prevnote">특별판 수령 관련 변경 사항</label><input type="text" id="prevnote" placeholder="학원명·로고·배송지 변경 등 (없으면 비워 두세요)"></div>
+      </div>
+
+      <div class="only2">
+        <div class="field"><label class="req" for="career">수학 지도 경력 및 담당 과정</label><input type="text" id="career" placeholder="예: 12년 / 고1 공통수학, 고2·고3 미적분"></div>
+        <div class="field"><label for="source">매쓰클랜을 알게 된 경로</label><input type="text" id="source" placeholder="예: 1·2기 집필진 소개, 블로그, 커뮤니티"></div>
+      </div>
+
+      <div class="field"><div class="lbl req">참여 희망 활동 (복수 선택)</div>
+        <div class="checks" id="acts">
+          <label><input type="checkbox" value="공통수학1·2 재출간">공통수학1·2 재출간 — 2027년 초 재출간 교재 검토·개선</label>
+          <label><input type="checkbox" value="기존 교재 개선">기존 교재 개선 — 대수, 미적분Ⅰ, 확률과 통계 검토</label>
+          <label><input type="checkbox" value="미적분Ⅱ 원고">미적분Ⅱ 원고 작성 (2027년 하반기~)</label>
+          <label><input type="checkbox" value="기하 원고">기하 원고 작성 (미적분Ⅱ 완료 후)</label>
+        </div></div>
+
+      <div class="field"><label for="units">자신 있는 단원 (공통수학1·2 · 미적분Ⅱ · 기하)</label><input type="text" id="units" placeholder="예: 이차함수, 도형의 방정식, 삼각함수의 미분"></div>
+      <div class="field"><label for="tools">원고 작성 환경</label>
+        <select id="tools"><option value="">선택</option><option>한글(HWP) 사용 가능</option><option>한글 사용 가능 + 일러스트/지오지브라 등 도구 사용 가능</option><option>한글 미보유 (워드·구글문서 사용)</option></select></div>
+      <div class="field"><label for="memo">기타 의견 · 질문</label><textarea id="memo"></textarea></div>
+
+      <div class="field"><div class="checks">
+        <label><input type="checkbox" id="agree">수집된 정보(성명·학원명·연락처·이메일)는 매쓰클랜 운영 및 도서 명단 등재·특별판 발송 목적으로만 사용되며, 이에 동의합니다. <span class="req"></span></label>
+      </div></div>
+
+      <div class="actions">
+        <button type="submit" class="btn pen" id="submit">신청서 제출</button>
+        <span class="hint" id="mode"></span>
+      </div>
+      <div class="msg err" id="err" hidden></div>
+    </form>
+
+    <div class="done" id="done" hidden>
+      <h3 id="doneTitle">제출되었습니다</h3>
+      <p id="doneText"></p>
+      <pre class="copy" id="copyText" hidden></pre>
+      <div class="actions"><a class="btn pen" id="mailBtn" hidden style="text-decoration:none">이메일로 보내기</a><button type="button" class="btn ghost" id="copyBtn" hidden>신청 내용 복사</button><span class="hint" id="copyMsg"></span></div>
+    </div>
+  </section>
+
+  <section class="admin" id="admin" hidden>
+    <h2>접수 현황 (운영자 전용)</h2>
+    <div class="cnt" id="cnt">0</div>
+    <div class="tw"><table id="list"><tr><th>구분</th><th>성명</th><th>학원</th><th>지역</th><th>참여 의사</th><th>희망 활동</th><th>제출</th></tr></table></div>
+  </section>
+
+  <footer>수고zero 집필진 매쓰클랜 운영진 · 문의 <span id="ce">tjehdqja@gmail.com</span></footer>
+</div>
+
+<script>
+(function(){
+  /* ─────────────────────────────────────────────────────────────
+     설정 — 기수마다 여기만 다릅니다.
+     · cohort   : 시트 '모집 기수' 열에 적히는 값
+     · newTrack : 신규 지원자 구분 이름
+     · newOpen  : false로 바꾸면 신규 지원을 닫고 nextUrl로 안내합니다
+                  (1기 기존 집필진 응답은 계속 받습니다)
+     · endpoint : 구글 Apps Script 웹 앱 주소. 비어 있으면 '이메일로 보내기' 방식
+     ───────────────────────────────────────────────────────────── */
+  const CONFIG={
+    cohort:'3기 모집',
+    newTrack:'3기 신규',
+    newOpen:true,
+    nextUrl:'',
+    nextLabel:'',
+    endpoint:'https://script.google.com/macros/s/AKfycbxmqfkS7l1B3EgHvzpSpeZAFdvJhjw_awRTrvCBBLgqLuOgP83RYnZMGAgbRn5GgYUmzQ/exec',
+    contact:'tjehdqja@gmail.com'
+  };
+
+  const f=document.getElementById('f');
+  const $=id=>document.getElementById(id);
+  let db=null,user=null;
+  const CONTACT=CONFIG.contact;
+
+  // 구분 토글
+  f.addEventListener('change',e=>{ if(e.target.name==='track') f.dataset.track=e.target.value; });
+
+  // 신규 지원 마감 처리
+  if(!CONFIG.newOpen){
+    $('track2').disabled=true; $('track1').checked=true; f.dataset.track='1';
+    const n=$('closedNote'); n.textContent=CONFIG.newTrack.replace(' 신규','')+' 신규 모집은 마감되었습니다. 1기 기존 집필진 응답은 계속 받습니다. ';
+    if(CONFIG.nextUrl){ const a=document.createElement('a'); a.href=CONFIG.nextUrl; a.textContent=(CONFIG.nextLabel||'다음 모집 안내')+' 보기'; n.appendChild(a); }
+    n.hidden=false;
+  }
+
+  // 저장 가능 여부 확인
+  (async()=>{
+    try{ if(window.claude&&claude.use){ db=await claude.use('db'); user=await claude.use('user'); } }catch(e){}
+    $('mode').textContent = (db||CONFIG.endpoint) ? '제출 시 운영진에게 바로 접수됩니다.' : '제출하면 신청 내용이 정리되어 이메일로 바로 보낼 수 있습니다.';
+    if(db && user && await user.isOwner()) loadAdmin();
+  })();
+
+  function vals(id){ return [...document.querySelectorAll('#'+id+' input:checked')].map(i=>i.value); }
+  function collect(){
+    const t=f.dataset.track;
+    const d={ cohort:CONFIG.cohort, track:t==='1'?'1기 기존':CONFIG.newTrack, name:$('name').value.trim(), academy:$('academy').value.trim(),
+      region:$('region').value.trim(), role:$('role').value.trim(), phone:$('phone').value.trim(), email:$('email').value.trim(),
+      acts:vals('acts'), units:$('units').value.trim(), tools:$('tools').value, memo:$('memo').value.trim(), submittedAt:new Date().toISOString() };
+    if(t==='1'){ d.cont=(f.querySelector('input[name=cont]:checked')||{}).value||''; d.prev=vals('prev'); d.prevnote=$('prevnote').value.trim(); }
+    else { d.career=$('career').value.trim(); d.source=$('source').value.trim(); }
+    return d;
+  }
+  function validate(d){
+    const miss=[];
+    if(!d.name) miss.push('성명'); if(!d.academy) miss.push('학원명'); if(!d.region) miss.push('지역');
+    if(!d.phone) miss.push('연락처'); if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.email)) miss.push('이메일');
+    if(!d.acts.length) miss.push('참여 희망 활동');
+    if(d.track==='1기 기존' && !d.cont) miss.push('참여 의사');
+    if(d.track!=='1기 기존' && !d.career) miss.push('지도 경력');
+    if(!$('agree').checked) miss.push('개인정보 동의');
+    return miss;
+  }
+  function asText(d){
+    const L=[`[매쓰클랜 집필진 신청] ${d.cohort} · ${d.track}`,`성명: ${d.name}`,`학원명: ${d.academy}`,`지역: ${d.region}`,`직책: ${d.role||'-'}`,`연락처: ${d.phone}`,`이메일: ${d.email}`];
+    if(d.cont!==undefined){ L.push(`참여 의사: ${d.cont}`,`1기 참여 교재: ${d.prev.join(', ')||'-'}`,`특별판 변경사항: ${d.prevnote||'-'}`); }
+    else { L.push(`지도 경력: ${d.career}`,`알게 된 경로: ${d.source||'-'}`); }
+    L.push(`희망 활동: ${d.acts.join(', ')}`,`자신 있는 단원: ${d.units||'-'}`,`작성 환경: ${d.tools||'-'}`,`기타: ${d.memo||'-'}`,`제출일: ${d.submittedAt.slice(0,10)}`);
+    return L.join('\n');
+  }
+  // 시트 열 이름과 짝지은 값(Apps Script가 이 이름으로 열을 찾습니다)
+  function pairs(d){
+    return [['구분',d.track],['성명',d.name],['학원명',d.academy],['지역',d.region],['직책',d.role],['연락처',d.phone],['이메일',d.email],
+      ['참여 의사',d.cont||''],['1기 참여 교재',(d.prev||[]).join(', ')],['특별판 변경사항',d.prevnote||''],
+      ['지도 경력',d.career||''],['알게 된 경로',d.source||''],['희망 활동',d.acts.join(', ')],
+      ['자신 있는 단원',d.units],['작성 환경',d.tools],['기타 의견',d.memo]];
+  }
+
+  f.addEventListener('submit',async e=>{
+    e.preventDefault();
+    const d=collect(), miss=validate(d), err=$('err'), btn=$('submit');
+    if(miss.length){ err.textContent='다음 항목을 확인해 주세요: '+miss.join(', '); err.hidden=false; return; }
+    err.hidden=true; btn.disabled=true; btn.textContent='제출 중…';
+    let saved=false;
+    if(db){
+      try{
+        const id=user?await user.id():null;
+        const ref = id ? db.collection('applications').doc(id) : db.collection('applications').doc();
+        await ref.set(d); saved=true;
+      }catch(ex){ saved=false; }
+    }
+    if(!saved && CONFIG.endpoint){
+      try{
+        const r=await fetch(CONFIG.endpoint,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},
+          body:JSON.stringify({website:$('website').value,cohort:d.cohort,fields:pairs(d)})});
+        const res=await r.json(); saved=!!(res&&res.ok);
+      }catch(ex){ saved=false; }
+    }
+    btn.textContent='신청서 제출';
+    $('done').hidden=false; f.hidden=true;
+    if(saved){
+      $('doneTitle').textContent='신청서가 접수되었습니다';
+      $('doneText').textContent=`${d.name} 선생님, 감사합니다. 운영진이 확인 후 ${d.email}로 안내드리겠습니다.`;
+    } else {
+      $('doneTitle').textContent='신청 내용이 정리되었습니다';
+      $('doneText').textContent='아래 「이메일로 보내기」를 누르면 신청 내용이 담긴 메일이 열립니다. 메일 앱이 열리지 않으면 내용을 복사해 운영진 카카오톡이나 이메일로 보내 주세요.';
+      $('mailBtn').href='mailto:'+CONTACT+'?subject='+encodeURIComponent('[매쓰클랜 신청] '+d.cohort+' '+d.track+' '+d.name+' ('+d.academy+')')+'&body='+encodeURIComponent(asText(d)); $('mailBtn').hidden=false;
+      $('copyText').textContent=asText(d); $('copyText').hidden=false; $('copyBtn').hidden=false;
+    }
+    $('done').scrollIntoView({behavior:'smooth',block:'start'});
+  });
+
+  $('copyBtn').addEventListener('click',()=>{
+    const t=$('copyText').textContent;
+    navigator.clipboard.writeText(t).then(()=>{ $('copyMsg').textContent='복사되었습니다'; })
+      .catch(()=>{ const r=document.createRange(); r.selectNodeContents($('copyText')); const s=getSelection(); s.removeAllRanges(); s.addRange(r); $('copyMsg').textContent='내용을 선택했습니다. 길게 눌러 복사하세요'; });
+  });
+
+  function loadAdmin(){
+    $('admin').hidden=false;
+    const tbl=$('list');
+    db.collection('applications').orderBy('submittedAt','desc').onSnapshot(snap=>{
+      const rows=[]; snap.forEach(doc=>rows.push(doc.data()));
+      $('cnt').textContent=rows.length;
+      [...tbl.querySelectorAll('tr:not(:first-child)')].forEach(r=>r.remove());
+      rows.forEach(r=>{ const tr=document.createElement('tr');
+        [r.track,r.name,r.academy,r.region,r.cont||r.career||'',(r.acts||[]).join(', '),(r.submittedAt||'').slice(0,10)].forEach(v=>{const td=document.createElement('td');td.textContent=v||'';tr.appendChild(td);});
+        tbl.appendChild(tr); });
+    },()=>{});
+  }
+})();
+</script>
+
+</body>
+</html>
