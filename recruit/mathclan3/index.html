@@ -76,7 +76,7 @@ th{color:var(--ink-3);font-weight:600;font-size:12px;letter-spacing:.06em}
 .field>label,.field>.lbl{display:block;font-weight:600;font-size:14px;margin-bottom:6px}
 .req::after{content:" *";color:var(--pen)}
 .hint{font-size:12px;color:var(--ink-3);margin-top:4px}
-input[type=text],input[type=tel],input[type=email],select,textarea{
+input[type=text],input[type=tel],input[type=email],input[type=url],input[type=file],select,textarea{
   width:100%;font:inherit;font-size:15px;padding:10px 12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:3px}
 textarea{min-height:90px;resize:vertical}
 input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--pen);outline-offset:1px}
@@ -236,10 +236,31 @@ footer{font-size:12px;color:var(--ink-3);margin-top:20px}
       <div class="field"><label for="units">자신 있는 단원 (공통수학1·2 · 미적분Ⅱ · 기하)</label><input type="text" id="units" placeholder="예: 이차함수, 도형의 방정식, 삼각함수의 미분"></div>
       <div class="field"><label for="tools">원고 작성 환경</label>
         <select id="tools"><option value="">선택</option><option>한글(HWP) 사용 가능</option><option>한글 사용 가능 + 일러스트/지오지브라 등 도구 사용 가능</option><option>한글 미보유 (워드·구글문서 사용)</option></select></div>
+      <div class="field">
+        <label for="logoMethod">학원 로고 제출</label>
+        <select id="logoMethod" aria-describedby="logoAvailability">
+          <option value="later">추후 이메일로 제출</option>
+          <option value="link">파일 링크로 제출 (대용량 원본 포함)</option>
+          <option value="upload" id="logoUploadOption" disabled>로고 파일 첨부</option>
+        </select>
+        <p class="hint" id="logoAvailability">인쇄용 로고 원본을 준비해 주세요. 파일 링크로 제출하거나, 신청 후 운영진 이메일로 파일을 직접 첨부해 보내실 수 있습니다.</p>
+      </div>
+      <div class="field" id="logoFileField" hidden>
+        <label for="logoFile">학원 로고 파일</label>
+        <input type="file" id="logoFile" accept=".png,.jpg,.jpeg,.pdf,.ai,.eps,.svg" aria-describedby="logoLimit" disabled>
+        <p class="hint" id="logoLimit">PNG·JPG·PDF·AI·EPS·SVG 중 1개, 최대 10MB. 더 큰 파일은 파일 링크로 제출해 주세요.</p>
+      </div>
+      <div class="field" id="logoLinkField" hidden>
+        <label for="logoLink">로고 파일 링크</label>
+        <input type="url" id="logoLink" placeholder="https://drive.google.com/…" aria-describedby="logoLinkHint">
+        <p class="hint" id="logoLinkHint">구글드라이브 등에서 내려받을 수 있는 링크를 입력하고, 운영진이 파일을 열 수 있도록 접근 권한을 확인해 주세요.</p>
+      </div>
+      <p class="msg" id="logoStatus" role="status" aria-live="polite"></p>
+
       <div class="field"><label for="memo">기타 의견 · 질문</label><textarea id="memo"></textarea></div>
 
       <div class="field"><div class="checks">
-        <label><input type="checkbox" id="agree">수집된 정보(성명·학원명·연락처·이메일)는 매쓰클랜 운영 및 도서 명단 등재·특별판 발송 목적으로만 사용되며, 이에 동의합니다. <span class="req"></span></label>
+        <label><input type="checkbox" id="agree">수집된 정보(성명·학원명·연락처·이메일·로고 파일 및 링크)는 매쓰클랜 운영 및 도서 명단 등재·특별판 발송 목적으로만 사용되며, 이에 동의합니다. <span class="req"></span></label>
       </div></div>
 
       <div class="actions">
@@ -266,6 +287,7 @@ footer{font-size:12px;color:var(--ink-3);margin-top:20px}
   <footer>수고zero 집필진 매쓰클랜 운영진 · 문의 <span id="ce">tjehdqja@gmail.com</span></footer>
 </div>
 
+<script src="../mathclan-logo.js"></script>
 <script>
 (function(){
   /* ─────────────────────────────────────────────────────────────
@@ -290,6 +312,7 @@ footer{font-size:12px;color:var(--ink-3);margin-top:20px}
   const $=id=>document.getElementById(id);
   let db=null,user=null;
   const CONTACT=CONFIG.contact;
+  const logo=createMathclanLogo(CONFIG.endpoint);
 
   // 구분 토글
   f.addEventListener('change',e=>{ if(e.target.name==='track') f.dataset.track=e.target.value; });
@@ -327,6 +350,7 @@ footer{font-size:12px;color:var(--ink-3);margin-top:20px}
     if(d.track==='1기 기존' && !d.cont) miss.push('참여 의사');
     if(d.track!=='1기 기존' && !d.career) miss.push('지도 경력');
     if(!$('agree').checked) miss.push('개인정보 동의');
+    const logoError=logo.validate(); if(logoError) miss.push(logoError);
     return miss;
   }
   function asText(d){
@@ -334,6 +358,8 @@ footer{font-size:12px;color:var(--ink-3);margin-top:20px}
     if(d.cont!==undefined){ L.push(`참여 의사: ${d.cont}`,`1기 참여 교재: ${d.prev.join(', ')||'-'}`,`특별판 변경사항: ${d.prevnote||'-'}`); }
     else { L.push(`지도 경력: ${d.career}`,`알게 된 경로: ${d.source||'-'}`); }
     L.push(`희망 활동: ${d.acts.join(', ')}`,`자신 있는 단원: ${d.units||'-'}`,`작성 환경: ${d.tools||'-'}`,`기타: ${d.memo||'-'}`,`제출일: ${d.submittedAt.slice(0,10)}`);
+    L.push(`로고 제출 방법: ${d.logo.method}`,`로고 파일 링크: ${d.logo.url||'-'}`,`로고 파일명: ${d.logo.name||'-'}`);
+    if(d.logo.method==='추후 이메일 제출') L.push('로고 파일은 이메일에 직접 첨부하여 제출해 주세요.');
     return L.join('\n');
   }
   // 시트 열 이름과 짝지은 값(Apps Script가 이 이름으로 열을 찾습니다)
@@ -341,7 +367,8 @@ footer{font-size:12px;color:var(--ink-3);margin-top:20px}
     return [['구분',d.track],['성명',d.name],['학원명',d.academy],['지역',d.region],['직책',d.role],['연락처',d.phone],['이메일',d.email],
       ['참여 의사',d.cont||''],['1기 참여 교재',(d.prev||[]).join(', ')],['특별판 변경사항',d.prevnote||''],
       ['지도 경력',d.career||''],['알게 된 경로',d.source||''],['희망 활동',d.acts.join(', ')],
-      ['자신 있는 단원',d.units],['작성 환경',d.tools],['기타 의견',d.memo]];
+      ['자신 있는 단원',d.units],['작성 환경',d.tools],['기타 의견',d.memo],
+      ['로고 제출 방법',d.logo.method],['로고 파일 링크',d.logo.url],['로고 파일명',d.logo.name],['로고 용량(바이트)',d.logo.size]];
   }
 
   f.addEventListener('submit',async e=>{
@@ -349,6 +376,11 @@ footer{font-size:12px;color:var(--ink-3);margin-top:20px}
     const d=collect(), miss=validate(d), err=$('err'), btn=$('submit');
     if(miss.length){ err.textContent='다음 항목을 확인해 주세요: '+miss.join(', '); err.hidden=false; return; }
     err.hidden=true; btn.disabled=true; btn.textContent='제출 중…';
+    try {
+      d.logo=await logo.prepare({name:d.name,academy:d.academy,cohort:d.cohort},$('website').value);
+    } catch(ex) {
+      err.textContent=ex.message; err.hidden=false; btn.disabled=false; btn.textContent='신청서 제출'; return;
+    }
     let saved=false;
     if(db){
       try{
