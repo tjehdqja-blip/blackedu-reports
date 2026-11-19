@@ -79,6 +79,9 @@ th{color:var(--ink-3);font-weight:600;font-size:12px;letter-spacing:.06em}
 input[type=text],input[type=tel],input[type=email],input[type=url],input[type=file],select,textarea{
   width:100%;font:inherit;font-size:15px;padding:10px 12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:3px}
 textarea{min-height:90px;resize:vertical}
+input[type=number]{width:100%;font:inherit;font-size:15px;padding:10px 12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:3px;font-variant-numeric:tabular-nums}
+.total{font-size:14px;padding:10px 12px;background:var(--bg);border:1px dashed var(--line);font-variant-numeric:tabular-nums}
+.total b{color:var(--pen)}
 input:focus,select:focus,textarea:focus,button:focus-visible{outline:2px solid var(--pen);outline-offset:1px}
 .row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media (max-width:520px){.row{grid-template-columns:1fr}}
@@ -116,6 +119,7 @@ footer{font-size:12px;color:var(--ink-3);margin-top:20px}
       <span>대상 <b>1기 기존 집필진 · 2기 신규 지원자</b></span>
       <span>제한 <b>학원당 1명</b></span>
       <span>신규 집필 <b>미적분Ⅱ → 기하 (2027년 시작 예정)</b></span>
+      <span>특별판 추가 주문 마감 <b>11월 24일(화) 자정</b></span>
     </div>
   </div>
 
@@ -129,6 +133,17 @@ footer{font-size:12px;color:var(--ink-3);margin-top:20px}
       <tr><td>신규</td><td>미적분Ⅱ, 기하</td><td>2027년 원고 작성 시작 (한글 파일, 소단원 1개 분량)</td></tr>
     </table></div>
     <div class="note">1기 집필진께서는 이번 발간을 기준으로 <b>계속 참여 / 휴식 / 종료</b> 여부를 신청서에서 알려 주세요. 명단 등재와 특별판 수령 정보 확인을 위해 제출이 필요합니다.</div>
+  </section>
+
+  <section id="order">
+    <h2>특별판 추가 구매 안내 (미적분Ⅰ · 확률과 통계)</h2>
+    <p>인쇄 계약(11월 25일) 전에, 기본 증정 <b>5권</b> 외 수업용 등으로 추가 구매를 희망하시는 분들의 수량을 미리 파악합니다. 출판사에 수업교재 사용 문의가 들어오고 있어, 필요한 분들께 이번 인쇄에 함께 반영해 드리려는 취지입니다.</p>
+    <div class="books">
+      <div class="book"><div class="k">기본 증정</div><div class="n">5<small>권 / 과목</small></div><div class="d">미적분Ⅰ 5권 + 확률과 통계 5권, 조건 없이 무상</div></div>
+      <div class="book"><div class="k">추가 구매가</div><div class="n">19,000<small>원 / 권</small></div><div class="d">두 과목 모두 정가, 별도 할인 없음</div></div>
+      <div class="book"><div class="k">신청 마감</div><div class="n">11.24<small>(화) 자정</small></div><div class="d">취합 수량으로 11월 25일 인쇄 계약 진행</div></div>
+    </div>
+    <div class="note">특별판은 <b>이번 인쇄 기회에 한해</b> 제작되며, 이후 추가 구매나 재인쇄는 불가합니다. 추가 희망 수량은 아래 신청서의 「특별판 추가 주문」 항목에 과목별로 적어 주세요.</div>
   </section>
 
   <section>
@@ -222,6 +237,16 @@ footer{font-size:12px;color:var(--ink-3);margin-top:20px}
         <div class="field"><label for="source">매쓰클랜을 알게 된 경로</label><input type="text" id="source" placeholder="예: 1기 집필진 소개, 블로그, 커뮤니티"></div>
       </div>
 
+      <div class="field"><div class="lbl req">특별판 추가 주문 (기본 증정 5권 외)</div>
+        <p class="hint" style="margin:0 0 8px">과목별 정가 19,000원 · 11월 24일(화) 자정 마감 · 이번 인쇄에 한해 제작. 추가 주문이 없으면 0으로 두세요.</p>
+        <div class="row">
+          <div class="field" style="margin-bottom:8px"><label for="extraCalc">미적분Ⅰ 추가 권수</label><input type="number" id="extraCalc" min="0" max="500" step="1" value="0" inputmode="numeric"></div>
+          <div class="field" style="margin-bottom:8px"><label for="extraProb">확률과 통계 추가 권수</label><input type="number" id="extraProb" min="0" max="500" step="1" value="0" inputmode="numeric"></div>
+        </div>
+        <div class="total" id="total">추가 주문 없음 (기본 증정 각 5권만 수령)</div>
+        <div class="field" style="margin-top:10px"><label for="shipTo">특별판 배송지</label><input type="text" id="shipTo" placeholder="학원 주소 (기본 증정분과 함께 발송)"></div>
+      </div>
+
       <div class="field"><div class="lbl req">참여 희망 활동 (복수 선택)</div>
         <div class="checks" id="acts">
           <label><input type="checkbox" value="기존 교재 개선">기존 교재 개선 — 공통수학1·2, 대수, 미적분Ⅰ, 확률과 통계 검토</label>
@@ -276,8 +301,8 @@ footer{font-size:12px;color:var(--ink-3);margin-top:20px}
 
   <section class="admin" id="admin" hidden>
     <h2>접수 현황 (운영자 전용)</h2>
-    <div class="cnt" id="cnt">0</div>
-    <div class="tw"><table id="list"><tr><th>구분</th><th>성명</th><th>학원</th><th>지역</th><th>참여 의사</th><th>희망 활동</th><th>제출</th></tr></table></div>
+    <div class="cnt" id="cnt">0</div><p class="hint" id="sum"></p>
+    <div class="tw"><table id="list"><tr><th>구분</th><th>성명</th><th>학원</th><th>지역</th><th>참여 의사</th><th>미적Ⅰ 추가</th><th>확통 추가</th><th>희망 활동</th><th>제출</th></tr></table></div>
   </section>
 
   <footer>수고zero 집필진 매쓰클랜 운영진 · 문의 <span id="ce">tjehdqja@gmail.com</span></footer>
@@ -328,12 +353,18 @@ footer{font-size:12px;color:var(--ink-3);margin-top:20px}
     if(db && user && await user.isOwner()) loadAdmin();
   })();
 
+  function num(id){ const v=parseInt($(id).value,10); return isNaN(v)||v<0?0:v; }
+  const PRICE=19000;
+  function fmt(n){ return n.toLocaleString('ko-KR'); }
+  function updTotal(){ const a=num('extraCalc'),b=num('extraProb'),t=a+b;
+    $('total').innerHTML = t? `추가 <b>${t}권</b> · 미적분Ⅰ ${a}권 + 확률과 통계 ${b}권 = <b>${fmt(t*PRICE)}원</b> (정가 ${fmt(PRICE)}원 × ${t})` : '추가 주문 없음 (기본 증정 각 5권만 수령)'; }
+  $('extraCalc').addEventListener('input',updTotal); $('extraProb').addEventListener('input',updTotal);
   function vals(id){ return [...document.querySelectorAll('#'+id+' input:checked')].map(i=>i.value); }
   function collect(){
     const t=f.dataset.track;
     const d={ cohort:CONFIG.cohort, track:t==='1'?'1기 기존':CONFIG.newTrack, name:$('name').value.trim(), academy:$('academy').value.trim(),
       region:$('region').value.trim(), role:$('role').value.trim(), phone:$('phone').value.trim(), email:$('email').value.trim(),
-      acts:vals('acts'), units:$('units').value.trim(), tools:$('tools').value, memo:$('memo').value.trim(), submittedAt:new Date().toISOString() };
+      acts:vals('acts'), extraCalc:num('extraCalc'), extraProb:num('extraProb'), shipTo:$('shipTo').value.trim(), units:$('units').value.trim(), tools:$('tools').value, memo:$('memo').value.trim(), submittedAt:new Date().toISOString() };
     if(t==='1'){ d.cont=(f.querySelector('input[name=cont]:checked')||{}).value||''; d.prev=vals('prev'); d.prevnote=$('prevnote').value.trim(); }
     else { d.career=$('career').value.trim(); d.source=$('source').value.trim(); }
     return d;
@@ -343,6 +374,7 @@ footer{font-size:12px;color:var(--ink-3);margin-top:20px}
     if(!d.name) miss.push('성명'); if(!d.academy) miss.push('학원명'); if(!d.region) miss.push('지역');
     if(!d.phone) miss.push('연락처'); if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(d.email)) miss.push('이메일');
     if(!d.acts.length) miss.push('참여 희망 활동');
+    if((d.extraCalc+d.extraProb)>0 && !d.shipTo) miss.push('특별판 배송지');
     if(d.track==='1기 기존' && !d.cont) miss.push('참여 의사');
     if(d.track!=='1기 기존' && !d.career) miss.push('지도 경력');
     if(!$('agree').checked) miss.push('개인정보 동의');
@@ -353,6 +385,7 @@ footer{font-size:12px;color:var(--ink-3);margin-top:20px}
     const L=[`[매쓰클랜 집필진 신청] ${d.cohort} · ${d.track}`,`성명: ${d.name}`,`학원명: ${d.academy}`,`지역: ${d.region}`,`직책: ${d.role||'-'}`,`연락처: ${d.phone}`,`이메일: ${d.email}`];
     if(d.cont!==undefined){ L.push(`참여 의사: ${d.cont}`,`1기 참여 교재: ${d.prev.join(', ')||'-'}`,`특별판 변경사항: ${d.prevnote||'-'}`); }
     else { L.push(`지도 경력: ${d.career}`,`알게 된 경로: ${d.source||'-'}`); }
+    L.push(`특별판 추가 주문: 미적분Ⅰ ${d.extraCalc}권 / 확률과 통계 ${d.extraProb}권 (합계 ${d.extraCalc+d.extraProb}권, ${fmt((d.extraCalc+d.extraProb)*PRICE)}원)`,`배송지: ${d.shipTo||'-'}`);
     L.push(`희망 활동: ${d.acts.join(', ')}`,`자신 있는 단원: ${d.units||'-'}`,`작성 환경: ${d.tools||'-'}`,`기타: ${d.memo||'-'}`,`제출일: ${d.submittedAt.slice(0,10)}`);
     L.push(`로고 제출 방법: ${d.logo.method}`,`로고 파일 링크: ${d.logo.url||'-'}`,`로고 파일명: ${d.logo.name||'-'}`);
     if(d.logo.method==='추후 이메일 제출') L.push('로고 파일은 이메일에 직접 첨부하여 제출해 주세요.');
@@ -363,6 +396,7 @@ footer{font-size:12px;color:var(--ink-3);margin-top:20px}
     return [['구분',d.track],['성명',d.name],['학원명',d.academy],['지역',d.region],['직책',d.role],['연락처',d.phone],['이메일',d.email],
       ['참여 의사',d.cont||''],['1기 참여 교재',(d.prev||[]).join(', ')],['특별판 변경사항',d.prevnote||''],
       ['지도 경력',d.career||''],['알게 된 경로',d.source||''],['희망 활동',d.acts.join(', ')],
+      ['미적분Ⅰ 추가 권수',d.extraCalc],['확률과 통계 추가 권수',d.extraProb],['추가 주문 금액',(d.extraCalc+d.extraProb)*PRICE],['특별판 배송지',d.shipTo||''],
       ['자신 있는 단원',d.units],['작성 환경',d.tools],['기타 의견',d.memo],
       ['로고 제출 방법',d.logo.method],['로고 파일 링크',d.logo.url],['로고 파일명',d.logo.name],['로고 용량(바이트)',d.logo.size]];
   }
@@ -417,10 +451,10 @@ footer{font-size:12px;color:var(--ink-3);margin-top:20px}
     const tbl=$('list');
     db.collection('applications').orderBy('submittedAt','desc').onSnapshot(snap=>{
       const rows=[]; snap.forEach(doc=>rows.push(doc.data()));
-      $('cnt').textContent=rows.length;
+      $('cnt').textContent=rows.length; $('sum').textContent=`추가 주문 합계 — 미적분Ⅰ ${rows.reduce((a,r)=>a+(r.extraCalc||0),0)}권 · 확률과 통계 ${rows.reduce((a,r)=>a+(r.extraProb||0),0)}권`;
       [...tbl.querySelectorAll('tr:not(:first-child)')].forEach(r=>r.remove());
       rows.forEach(r=>{ const tr=document.createElement('tr');
-        [r.track,r.name,r.academy,r.region,r.cont||r.career||'',(r.acts||[]).join(', '),(r.submittedAt||'').slice(0,10)].forEach(v=>{const td=document.createElement('td');td.textContent=v||'';tr.appendChild(td);});
+        [r.track,r.name,r.academy,r.region,r.cont||r.career||'',r.extraCalc||0,r.extraProb||0,(r.acts||[]).join(', '),(r.submittedAt||'').slice(0,10)].forEach(v=>{const td=document.createElement('td');td.textContent=v||'';tr.appendChild(td);});
         tbl.appendChild(tr); });
     },()=>{});
   }
