@@ -38,7 +38,7 @@ function mathclanLogoSave_(data) {
   ['name', 'academy', 'cohort'].forEach(function (key) {
     if (typeof applicant[key] !== 'string' || !applicant[key].trim() || applicant[key].length > 100) throw Error('Invalid applicant');
   });
-  if (!/^\d{1,2}기 모집$/.test(applicant.cohort)) throw Error('Invalid cohort');
+  if (!/^\d{1,2}기 (모집|특별판)$/.test(applicant.cohort)) throw Error('Invalid cohort');
   var types = {png: 'image/png', jpg: 'image/jpeg', jpeg: 'image/jpeg', pdf: 'application/pdf',
     ai: 'application/postscript', eps: 'application/postscript', svg: 'image/svg+xml'};
   if (typeof f.name !== 'string' || f.name.length > 200) throw Error('Invalid filename');

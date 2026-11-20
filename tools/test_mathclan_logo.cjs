@@ -59,4 +59,9 @@ assert.equal(emails.length, 0, 'Drive collection never sends email');
 properties.set('MATHCLAN_LOGO_DAILY_USAGE', JSON.stringify({date: '2026-11-18', count: 100}));
 assert.equal(ok({...data, requestId: crypto.randomUUID()}), false);
 assert.equal(files.size, 2);
+// 특별판 표지 제작 신청서(cohort 'N기 특별판')의 로고도 받고, 그 밖의 값은 거절한다
+properties.delete('MATHCLAN_LOGO_DAILY_USAGE');
+assert.equal(ok({...data, requestId: crypto.randomUUID(), applicant: {...data.applicant, cohort: '2기 특별판'}}), true);
+assert.equal(ok({...data, requestId: crypto.randomUUID(), applicant: {...data.applicant, cohort: '2기 기타'}}), false);
+assert.equal(files.size, 3);
 console.log('PASS: dispatch, capabilities, consent, types, file length/size, Drive save, retry, no email, quota.');
